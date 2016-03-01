@@ -4,11 +4,121 @@
 	<meta charset="UTF-8">
 	<title>Watermark</title>
 	<link rel="stylesheet" href="bower/normalize-css/normalize.css">
+	<link rel="stylesheet" href="fonts/stylesheet.css">
+	<link rel="stylesheet" href="fonts/stylesheet2.css">
+	<link rel="stylesheet" href="fonts/stylesheet3.css">
+	<link rel="stylesheet" href="css/libs/jquery-ui.min.css">
 	<link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-
+    <div class="wrapper">
+        <div class="inner_wrapper">
+            <div class="container">
+               <div class="container-content">
+                    <main class="content">
+                        <h1 class="title-content">
+                            Генератор водяных знаков
+                        </h1>
+                        <div class="container-img">
+                            <img src="images/item-img.png" alt="" class="item-img">
+                            <img src="images/watermark.png" alt="" class="watermark-img">
+                        </div>
+                    </main>
+                    <aside class="sidebar">
+                        <h2 class="title-sidebar">
+                            Настройки
+                        </h2>
+                        <form action="">
+                            <div class="container-form">
+                                <label for="image" class="label-sidebar-form">
+                                    Исходное изображение
+                                </label>
+                                <div class="fileform">
+                                    <div class="fileformlabel">Изображение</div>
+                                    <div class="selectbutton"></div>
+                                    <input id="image" type="file" name="image" value="" class="upload">
+                                </div>
+                                <label for="watermark" class="label-sidebar-form">
+                                    Водяной знак
+                                </label>
+                                <div class="fileform">
+                                    <div class="fileformlabel">Изображение</div>
+                                    <div class="selectbutton"></div>
+                                    <input id="watermark" type="file" name="image" value="" class="upload">
+                                </div>
+                            </div>
+                            <div class="container-form">
+                                <div class="label-sidebar-form label-margin">
+                                    Положение
+                                </div>
+                                <div class="container-settings">
+                                    <ul class="container-color-block">
+                                        <li class="color-block active-color"></li>
+                                        <li class="color-block"></li>
+                                        <li class="color-block"></li>
+                                        <li class="color-block"></li>
+                                        <li class="color-block"></li>
+                                        <li class="color-block"></li>
+                                        <li class="color-block"></li>
+                                        <li class="color-block"></li>
+                                        <li class="color-block"></li>
+                                    </ul>
+                                    <div class="container-coordinates">
+                                        <div class="coordinates">X</div>
+                                        <input type="text" value="0" class="coordinates-value">
+                                        <div class="switch-container">
+                                            <div class="switch up"></div>
+                                            <div class="switch down"></div>
+                                        </div>
+                                    </div>
+                                    <div class="container-coordinates">
+                                        <div class="coordinates">Y</div>
+                                        <input type="text" value="0" class="coordinates-value">
+                                        <div class="switch-container">
+                                            <div class="switch up"></div>
+                                            <div class="switch down"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="container-form">
+                                <div class="label-sidebar-form label-margin">
+                                    Прозрачность
+                                </div>
+                                <div id="slider" class="slider"></div>
+                            </div>
+                            <div class="container-button">
+                                <input type="button" value="Сброс" class="button-sidebar reset">
+                                <a href="htmldoc.html" download class="button-sidebar download">Скачать</a>
+                            </div>
+                        </form>
+                    </aside>
+               </div>
+            </div>
+            <ul class="container-languages">
+                <li class="fixed-button languages-ru">
+                    РУС
+                </li>
+                <li class="fixed-button languages-eng">
+                    ENG
+                </li>
+            </ul>
+            <ul class="social-list">
+                <li class="social-item"><a href="#" target="_blank" class="sicial-link-fb fixed-button"></a></li>
+                <li class="social-item"><a href="#" target="_blank" class="sicial-link-tw fixed-button"></a></li>
+                <li class="social-item"><a href="#" target="_blank" class="sicial-link-vk fixed-button"></a></li>
+                <li class="social-item"><a href="#" target="_blank" class="sicial-link-like fixed-button"></a></li>
+            </ul>
+        </div>
+        <footer class="footer">
+                <div class="copy">
+                    &copy;2014, Это мой сайт, пожалуйста, не копируйте и не воруйте его
+                </div>
+        </footer>
+    </div>
 	<script type="text/javascript" src="bower/jquery/jquery.js"></script>
+	<script src="js/libs/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 </body>
 </html>
