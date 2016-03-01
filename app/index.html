@@ -5,8 +5,6 @@
 	<title>Watermark</title>
 	<link rel="stylesheet" href="bower/normalize-css/normalize.css">
 	<link rel="stylesheet" href="fonts/stylesheet.css">
-	<link rel="stylesheet" href="fonts/stylesheet2.css">
-	<link rel="stylesheet" href="fonts/stylesheet3.css">
 	<link rel="stylesheet" href="css/libs/jquery-ui.min.css">
 	<link rel="stylesheet" href="css/main.css">
 </head>
@@ -65,7 +63,7 @@
                                     </ul>
                                     <div class="container-coordinates">
                                         <div class="coordinates">X</div>
-                                        <input type="text" value="0" class="coordinates-value">
+                                        <input type="text" value="0" name="x-coordinates" class="coordinates-value">
                                         <div class="switch-container">
                                             <div class="switch up"></div>
                                             <div class="switch down"></div>
@@ -73,7 +71,7 @@
                                     </div>
                                     <div class="container-coordinates">
                                         <div class="coordinates">Y</div>
-                                        <input type="text" value="0" class="coordinates-value">
+                                        <input type="text" value="0" name="y-coordinates" class="coordinates-value">
                                         <div class="switch-container">
                                             <div class="switch up"></div>
                                             <div class="switch down"></div>
@@ -96,20 +94,22 @@
                     </aside>
                </div>
             </div>
-            <ul class="container-languages">
-                <li class="fixed-button languages-ru">
-                    РУС
-                </li>
-                <li class="fixed-button languages-eng">
-                    ENG
-                </li>
-            </ul>
-            <ul class="social-list">
-                <li class="social-item"><a href="#" target="_blank" class="sicial-link-fb fixed-button"></a></li>
-                <li class="social-item"><a href="#" target="_blank" class="sicial-link-tw fixed-button"></a></li>
-                <li class="social-item"><a href="#" target="_blank" class="sicial-link-vk fixed-button"></a></li>
-                <li class="social-item"><a href="#" target="_blank" class="sicial-link-like fixed-button"></a></li>
-            </ul>
+            <div class="block-fixed">
+                <ul class="container-languages">
+                    <li class="fixed-button languages-ru">
+                        РУС
+                    </li>
+                    <li class="fixed-button languages-eng">
+                        ENG
+                    </li>
+                </ul>
+                <ul class="social-list active">
+                    <li><a href="#" target="_blank" class="sicial-link-fb fixed-button"></a></li>
+                    <li><a href="#" target="_blank" class="sicial-link-tw fixed-button"></a></li>
+                    <li><a href="#" target="_blank" class="sicial-link-vk fixed-button"></a></li>
+                    <li class="social-item-like"><a href="#" target="_blank" class="sicial-link-like fixed-button"></a></li>
+                </ul>
+            </div>
         </div>
         <footer class="footer">
                 <div class="copy">
