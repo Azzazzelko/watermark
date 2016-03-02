@@ -14,7 +14,7 @@
             <div class="container">
                <div class="container-content">
                     <main class="content">
-                        <h1 class="title-content">
+                        <h1 class="title-content" data-lang="title">
                             Генератор водяных знаков
                         </h1>
                         <div class="container-img">
@@ -23,25 +23,25 @@
                         </div>
                     </main>
                     <aside class="sidebar">
-                        <h2 class="title-sidebar">
+                        <h2 class="title-sidebar" data-lang="sidebar-title">
                             Настройки
                         </h2>
                         <form action="" method="post">
                             <div class="container-form">
-                                <label for="background" class="label-sidebar-form">
+                                <label for="background" class="label-sidebar-form" data-lang="img-label">
                                     Исходное изображение
                                 </label>
                                 <div class="fileform">
-                                    <div class="fileformlabel">Изображение</div>
+                                    <div class="fileformlabel" data-lang="fake-input">Изображение</div>
                                     <div class="selectbutton"></div>
                                     <input id="background" type="file" name="files" class="upload">
                                     <input type="hidden" name="background" value="">
                                 </div>
-                                <label for="watermark" class="label-sidebar-form">
+                                <label for="watermark" class="label-sidebar-form" data-lang="water-label">
                                     Водяной знак
                                 </label>
                                 <div class="fileform">
-                                    <div class="fileformlabel">Изображение</div>
+                                    <div class="fileformlabel" data-lang="fake-input">Изображение</div>
                                     <div class="selectbutton"></div>
                                     <input id="watermark" type="file" name="files" data-name="" class=
                                     "upload">
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                             <div class="container-form">
-                                <div class="label-sidebar-form label-margin">
+                                <div class="label-sidebar-form label-margin" data-lang="position">
                                     Положение
                                 </div>
                                 <div class="container-settings">
@@ -84,15 +84,15 @@
                                 
                             </div>
                             <div class="container-form">
-                                <div class="label-sidebar-form label-margin">
+                                <div class="label-sidebar-form label-margin" data-lang="opacity">
                                     Прозрачность
                                 </div>
                                 <input type="hidden" name="opacity" id="opacity">
                                 <div id="slider" class="slider"></div>
                             </div>
                             <div class="container-button">
-                                <input type="button" value="Сброс" class="button-sidebar reset">
-                                <a href="htmldoc.html" download class="button-sidebar download">Скачать</a>
+                                <input type="button" value="Сброс" class="button-sidebar reset" data-lang="reset">
+                                <a href="htmldoc.html" download class="button-sidebar download" data-lang="download">Скачать</a>
                             </div>
                         </form>
                     </aside>
@@ -116,7 +116,7 @@
             </div>
         </div>
         <footer class="footer">
-                <div class="copy">
+                <div class="copy" data-lang="copy">
                     &copy;2014, Это мой сайт, пожалуйста, не копируйте и не воруйте его
                 </div>
         </footer>
@@ -127,6 +127,7 @@
     <script src="js/libs/jquery.ui.widget.js"></script>
     <script src="js/libs/jquery.iframe-transport.js"></script>
     <script src="js/libs/jquery.fileupload.js"></script>
+    <script type="text/javascript" src="js/lang/lang.js"></script>
 
 	<script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/upload.js"></script>
