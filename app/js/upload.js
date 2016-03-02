@@ -54,9 +54,21 @@
                   //addToolTip($this, result.text_status);
                   console.log(result.text_status);
 
+
                 } else {
                   //delToolTip($this);
                   $("input[type='hidden'][name="+imgtype+"]").val(result.text_status);
+
+                  if (imgtype == 'background') {
+                    $('.item-img').attr('src', 'uploadimgs/' + result.text_status)
+                                  .data('width', 'uploadimgs/' + result.img_width)
+                                  .data('height', 'uploadimgs/' + result.img_height);
+                  }
+                  if (imgtype == 'watermark') {
+                    $('.watermark-img').attr('src', 'uploadimg/' + result.text_status)
+                                        .data('width', 'uploadimgs/' + result.img_width)
+                                        .data('height', 'uploadimgs/' + result.img_height);
+                  }
                 }
             })
             .error(function (jqXHR, textStatus, errorThrown) {

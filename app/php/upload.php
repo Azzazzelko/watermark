@@ -1,4 +1,5 @@
 <?php
+//echo '{"status":"server_ok", "text_status":"22"}';
 session_start();
 if(isset($_FILES['files']) && $_FILES['files']['error'] == 0){
 
