@@ -57,6 +57,9 @@
                 } else {
                   //delToolTip($this);
                   $("input[type='hidden'][name="+imgtype+"]").val(result.text_status);
+
+                  console.log(result.data_width);
+                  console.log(result.data_height);
                 }
             })
             .error(function (jqXHR, textStatus, errorThrown) {
@@ -65,7 +68,7 @@
             });
           },
 
-        progress: function(e, data){
+          progress: function(e, data){
             //addToolTip($(this),'Загрузка файла, подождите....');
             console.log('Загрузка файла, подождите....');
           }

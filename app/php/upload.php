@@ -34,7 +34,12 @@ if(isset($_FILES['files']) && $_FILES['files']['error'] == 0){
 
 		// Перемещаем файл в нужную нам папку.
 		if(move_uploaded_file($project_file["tmp_name"], $final_path)) {
-			echo '{"status":"server_ok", "text_status":"'.$new_file_name.'"}';
+			list($width, $height, $type, $attr) = getimagesize($final_path);
+			echo '{"status":"server_ok",
+				   "text_status":"'.$new_file_name.'",
+				   "data_width":"'.$width.'",
+				   "data_height":"'.$height.'"
+				}';
 			return;
 		} else {
 			echo '{"status":"server_error", "text_status":"Ошибка загрузки файла"}';
