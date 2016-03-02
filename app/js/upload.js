@@ -58,10 +58,21 @@
                 } else {
                   //delToolTip($this);
                   $("input[type='hidden'][name="+imgtype+"]").val(result.text_status);
-                  var imgWidth = 1800;
-                  var imgHeight = 841;
-                  var imgWidth = result.width;
-                  var imgHeight = result.height;
+
+                  
+                  if (imgtype == 'background') {
+                    $('.item-img').attr('src', 'uploadimgs/' + result.text_status)
+                                  .data('width', 'uploadimgs/' + result.img_width)
+                                  .data('height', 'uploadimgs/' + result.img_height);
+                  }
+                  if (imgtype == 'watermark') {
+                    $('.watermark-img').attr('src', 'uploadimg/' + result.text_status)
+                                        .data('width', 'uploadimgs/' + result.img_width)
+                                        .data('height', 'uploadimgs/' + result.img_height);
+                  }
+
+                  var imgWidth = result.data_width;
+                  var imgHeight = result.data_height;
 
                   var imgUrl = 'uploadimg/' + result.text_status;
 
@@ -102,7 +113,7 @@
             });
           },
 
-        progress: function(e, data){
+          progress: function(e, data){
             //addToolTip($(this),'Загрузка файла, подождите....');
             console.log('Загрузка файла, подождите....');
           }
