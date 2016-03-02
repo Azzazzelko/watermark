@@ -96,8 +96,9 @@ input{
 }
 
 .item-img{
-    width: 100%;
-    height: auto; 
+    /*скрыл, так как размеры выщитывает js/ Никита*/
+    /*width: 100%;*/
+    /*height: auto; */
     margin: 0 auto;
 }
 

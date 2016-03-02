@@ -59,7 +59,7 @@
                   //delToolTip($this);
                   $("input[type='hidden'][name="+imgtype+"]").val(result.text_status);
 
-                  
+
                   if (imgtype == 'background') {
                     $('.item-img').attr('src', 'uploadimgs/' + result.text_status)
                                   .data('width', 'uploadimgs/' + result.img_width)
@@ -82,12 +82,12 @@
                                 .attr('data-width', imgWidth)
                                 .attr('data-height', imgHeight);
 
-                    if (imgWidth/605 > imgHeight/304) {
+                    if (imgWidth/651 > imgHeight/304) {
                         newHeight = 651 * imgHeight / imgWidth;
                         $('.item-img').attr('width', 651).attr('height', newHeight);
                     } else {
-                        newWidth = 304 * imgWidth / imgHeight;
-                        $('.item-img').attr('width', newWidth).attr('height', 304);
+                        newWidth = 534 * imgWidth / imgHeight;
+                        $('.item-img').attr('width', newWidth).attr('height', 534);
                     }
                   }
 
