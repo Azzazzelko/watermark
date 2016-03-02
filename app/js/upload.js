@@ -82,7 +82,7 @@
                                 .attr('data-width', imgWidth)
                                 .attr('data-height', imgHeight);
 
-                    if (imgWidth/651 > imgHeight/304) {
+                    if (imgWidth/651 > imgHeight/534) {
                         newHeight = 651 * imgHeight / imgWidth;
                         $('.item-img').attr('width', 651).attr('height', newHeight);
                     } else {
