@@ -58,12 +58,8 @@
                 } else {
                   //delToolTip($this);
                   $("input[type='hidden'][name="+imgtype+"]").val(result.text_status);
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-                  console.log(result.data_width);
-                  console.log(result.data_height);
-=======
+                  
                   if (imgtype == 'background') {
                     $('.item-img').attr('src', 'uploadimgs/' + result.text_status)
                                   .data('width', 'uploadimgs/' + result.img_width)
@@ -74,25 +70,41 @@
                                         .data('width', 'uploadimgs/' + result.img_width)
                                         .data('height', 'uploadimgs/' + result.img_height);
                   }
->>>>>>> origin/master
-=======
-                  var imgWidth = result.width;
-                  var imgHeight = result.height;
+
+                  var imgWidth = result.data_width;
+                  var imgHeight = result.data_height;
+
                   var imgUrl = 'uploadimg/' + result.text_status;
 
                   if (imgtype == 'background') {
+
                     $('.item-img').attr('src', imgUrl)
                                 .attr('data-width', imgWidth)
                                 .attr('data-height', imgHeight);
-                    
+
+                    if (imgWidth/605 > imgHeight/304) {
+                        newHeight = 651 * imgHeight / imgWidth;
+                        $('.item-img').attr('width', 651).attr('height', newHeight);
+                    } else {
+                        newWidth = 304 * imgWidth / imgHeight;
+                        $('.item-img').attr('width', newWidth).attr('height', 304);
+                    }
                   }
+
                   if (imgtype == 'watermark') {
                     $('.watermark-img').attr('src', imgUrl)
                                       .attr('data-width', imgWidth)
                                       .attr('data-height', imgHeight);
+
+                    if (imgWidth/605 > imgHeight/534) {
+                      newHeight = 651/3 * imgHeight / imgWidth;
+                      $('.watermark-img').attr('width',651/3).attr('height', newHeight);
+                    } else {
+                      newWidth = 534/3 * imgWidth / imgHeight;
+                      $('.watermark-img').attr('width', newWidth).attr('height', 534/3);
+                    }
                   }
 
->>>>>>> d99fb01fe051a9df6b4579589b6599d4198ab253
                 }
             })
             .error(function (jqXHR, textStatus, errorThrown) {
