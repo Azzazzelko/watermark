@@ -477,10 +477,15 @@ input{
     position: absolute;
     top: 88px;
     left:-43px;
+    transition-timing-function: linear;
+    transform:translate(0px);
+    transition-duration: 0.5s;
 }
 
 .social-list.active{
-    left: 0;
+    transition-timing-function: linear;
+    transform:translate(43px);
+    transition-duration: 0.5s;
 }
 
 .social-item-like{

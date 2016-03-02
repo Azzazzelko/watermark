@@ -6,6 +6,7 @@ $( document ).ready(function() {
     var opacity; // в переменно перезаписываеться значение нашей прозрачности из слайдера
 
     $("#slider").slider({
+
 		min: 0,
 		max: 100,
 		value: 0,
@@ -63,4 +64,13 @@ $( document ).ready(function() {
     }
 
     inputListeners();
+
+
+
+    $('.social-item-like').on("click", function(e){ // социальные кнопки
+        e.stopPropagation();
+        $('.social-list').toggleClass('active');
+    });
 });
+
+
