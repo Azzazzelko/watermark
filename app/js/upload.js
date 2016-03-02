@@ -54,9 +54,57 @@
                   //addToolTip($this, result.text_status);
                   console.log(result.text_status);
 
+
                 } else {
                   //delToolTip($this);
                   $("input[type='hidden'][name="+imgtype+"]").val(result.text_status);
+
+
+                  if (imgtype == 'background') {
+                    $('.item-img').attr('src', 'uploadimgs/' + result.text_status)
+                                  .data('width', 'uploadimgs/' + result.img_width)
+                                  .data('height', 'uploadimgs/' + result.img_height);
+                  }
+                  if (imgtype == 'watermark') {
+                    $('.watermark-img').attr('src', 'uploadimg/' + result.text_status)
+                                        .data('width', 'uploadimgs/' + result.img_width)
+                                        .data('height', 'uploadimgs/' + result.img_height);
+                  }
+
+                  var imgWidth = result.data_width;
+                  var imgHeight = result.data_height;
+
+                  var imgUrl = 'uploadimg/' + result.text_status;
+
+                  if (imgtype == 'background') {
+
+                    $('.item-img').attr('src', imgUrl)
+                                .attr('data-width', imgWidth)
+                                .attr('data-height', imgHeight);
+
+                    if (imgWidth/651 > imgHeight/534) {
+                        newHeight = 651 * imgHeight / imgWidth;
+                        $('.item-img').attr('width', 651).attr('height', newHeight);
+                    } else {
+                        newWidth = 534 * imgWidth / imgHeight;
+                        $('.item-img').attr('width', newWidth).attr('height', 534);
+                    }
+                  }
+
+                  if (imgtype == 'watermark') {
+                    $('.watermark-img').attr('src', imgUrl)
+                                      .attr('data-width', imgWidth)
+                                      .attr('data-height', imgHeight);
+
+                    if (imgWidth/605 > imgHeight/534) {
+                      newHeight = 651/3 * imgHeight / imgWidth;
+                      $('.watermark-img').attr('width',651/3).attr('height', newHeight);
+                    } else {
+                      newWidth = 534/3 * imgWidth / imgHeight;
+                      $('.watermark-img').attr('width', newWidth).attr('height', 534/3);
+                    }
+                  }
+
                 }
             })
             .error(function (jqXHR, textStatus, errorThrown) {
@@ -65,7 +113,7 @@
             });
           },
 
-        progress: function(e, data){
+          progress: function(e, data){
             //addToolTip($(this),'Загрузка файла, подождите....');
             console.log('Загрузка файла, подождите....');
           }
