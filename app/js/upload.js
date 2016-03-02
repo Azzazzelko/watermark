@@ -58,16 +58,20 @@
                 } else {
                   //delToolTip($this);
                   $("input[type='hidden'][name="+imgtype+"]").val(result.text_status);
+                  var imgWidth = result.width;
+                  var imgHeight = result.height;
+                  var imgUrl = 'uploadimg/' + result.text_status;
 
                   if (imgtype == 'background') {
-                    $('.item-img').attr('src', 'uploadimg/' + result.text_status)
-                                .attr('data-width', result.width)
-                                .attr('data-height', result.height);
+                    $('.item-img').attr('src', imgUrl)
+                                .attr('data-width', imgWidth)
+                                .attr('data-height', imgHeight);
+                    
                   }
                   if (imgtype == 'watermark') {
-                    $('.watermark-img').attr('src', 'uploadimg/' + result.text_status)
-                                      .attr('data-width', result.width)
-                                      .attr('data-height', result.height);
+                    $('.watermark-img').attr('src', imgUrl)
+                                      .attr('data-width', imgWidth)
+                                      .attr('data-height', imgHeight);
                   }
 
                 }
