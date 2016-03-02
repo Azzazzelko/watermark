@@ -1,4 +1,8 @@
 node_modules
 app/bower
 app/uploadimg
+<<<<<<< HEAD
 .idea
+=======
+/.idea
+>>>>>>> d99fb01fe051a9df6b4579589b6599d4198ab253

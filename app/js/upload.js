@@ -58,6 +58,7 @@
                 } else {
                   //delToolTip($this);
                   $("input[type='hidden'][name="+imgtype+"]").val(result.text_status);
+<<<<<<< HEAD
 
 <<<<<<< HEAD
                   console.log(result.data_width);
@@ -74,6 +75,24 @@
                                         .data('height', 'uploadimgs/' + result.img_height);
                   }
 >>>>>>> origin/master
+=======
+                  var imgWidth = result.width;
+                  var imgHeight = result.height;
+                  var imgUrl = 'uploadimg/' + result.text_status;
+
+                  if (imgtype == 'background') {
+                    $('.item-img').attr('src', imgUrl)
+                                .attr('data-width', imgWidth)
+                                .attr('data-height', imgHeight);
+                    
+                  }
+                  if (imgtype == 'watermark') {
+                    $('.watermark-img').attr('src', imgUrl)
+                                      .attr('data-width', imgWidth)
+                                      .attr('data-height', imgHeight);
+                  }
+
+>>>>>>> d99fb01fe051a9df6b4579589b6599d4198ab253
                 }
             })
             .error(function (jqXHR, textStatus, errorThrown) {
