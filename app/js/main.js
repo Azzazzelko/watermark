@@ -2,8 +2,7 @@
 $( document ).ready(function() {
     
     $("#slider").slider({
-//        range: true
- 
+        range: "min"
     });
     
     $('.social-item-like').on("click", function(e){ // социальные кнопки
