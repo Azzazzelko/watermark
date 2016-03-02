@@ -208,6 +208,45 @@ input{
     margin: 15px 0 31px;
 }
 
+.container-view-radio{
+    float: right;
+}
+
+.wrapp-view{
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.view{
+    display: none;
+}
+
+.view+.view-block{
+    width: 19px;
+    height: 19px;
+    cursor: pointer;
+    overflow: hidden;
+    display: block;
+}
+
+.normal-view{
+    background: url(../images/view-sprt.png) no-repeat -35px -44px;
+}
+
+.view-grid{
+    background: url(../images/view-sprt.png) no-repeat 0 -44px;
+}
+
+.view:checked+.normal-view{
+    background: url(../images/view-sprt.png) no-repeat -35px 0; 
+}
+
+
+.view:checked+.view-grid{
+    background: url(../images/view-sprt.png) no-repeat 0 0; 
+}
+
+
 .container-settings{
     overflow: hidden;
     margin-bottom: 17px;
@@ -231,41 +270,48 @@ input{
     border-left: 1px solid #9eb2c0;
     border-top: 1px solid #9eb2c0;
     vertical-align: top;
+    cursor: pointer;
 }
 
 .active-color{
     background: #f97e76;
 }
 
+.wrapp-coordinates{
+    float: right;
+    width: 105px;
+}
+
 .container-coordinates{
     float: right;
     margin: 0 0 12px 0;
     letter-spacing: -0.3em;
-    width: 87px;
 }
 
 .coordinates, .coordinates-value,
 .switch-container{
     display: inline-block;
+    letter-spacing: normal;
     vertical-align: top;
 }
 
 .coordinates{
     width: 12px;
-    margin-top: 15px;
     font: 16px 'robotolight';
+    text-align: center;
+    padding: 10px;
+    overflow: hidden;
 }
 
 .coordinates-value{
     width: 46px;
     height: 45px;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 10px 5px;
     text-align: center;
     color: #444a53;
     background: #f1f1f5;
     border: 1px solid #9eb2c0;
-    margin: 0 0 0 8px;
     border-radius: 3px;
 }
 .switch-container{
