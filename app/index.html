@@ -26,7 +26,7 @@
                         <h2 class="title-sidebar">
                             Настройки
                         </h2>
-                        <form action="" method="post">
+                        <form action="php/create-img.php" class="form">
                             <div class="container-form">
                                 <label for="background" class="label-sidebar-form">
                                     Исходное изображение
@@ -53,16 +53,18 @@
                                     Положение
                                     <div class="container-view-radio">
                                        <label class="wrapp-view">
-                                           <input type="radio" name="view" class="view" checked>
+                                           <input type="radio" name="view" class="view" value="one" checked>
                                             <span class="view-block normal-view "></span>
                                        </label>
                                        <label class="wrapp-view">
-                                           <input type="radio" name="view" class="view">
+                                           <input type="radio" name="view" value="some" class="view">
                                             <span class="view-block view-grid"></span>
                                        </label>
                                     </div>
                                 </div>
                                 <div class="container-settings">
+                                    <input type="hidden" name="x-margin" id="x-margin">
+                                    <input type="hidden" name="y-margin" id="y-margin">
                                     <ul class="container-color-block">
                                         <li class="active-color-field active-color-horizontal-field"></li>
                                         <li class="active-color-field active-color-vertical-field"></li>
@@ -106,7 +108,7 @@
                             </div>
                             <div class="container-button">
                                 <button class="button-sidebar reset" type="reset" name="reset" value="reset">Сброс</button>
-                                <button class="button-sidebar download" type="button" name="download" value="download">Скачать</button>
+                                <button class="button-sidebar download" type="submit" name="submit" value="submit">Скачать</button>
                             </div>
                         </form>
                     </aside>
@@ -144,5 +146,6 @@
 
 	<script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/upload.js"></script>
+    <script type="text/javascript" src="js/downloadimg.js"></script>
 </body>
 </html>

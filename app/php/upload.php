@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 if(isset($_FILES['files']) && $_FILES['files']['error'] == 0){
 
