@@ -1,0 +1,12 @@
+{
+	"title" : "Watermarks generator",
+	"sidebar-title" : "Settings",
+	"img-label" : "Original image",
+	"water-label" : "Watermark",
+	"fake-input" : "Image",
+	"position" : "Position",
+	"opacity" : "Transparency",
+	"copy" : "&copy;2014, This is my website, please do not copy or steal it",
+	"download" : "Download",
+	"reset" : "Reset"
+}
