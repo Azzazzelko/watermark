@@ -27,7 +27,7 @@ var lang = (function(){		//== Languages change module
 	        $this.html(value);
 	      }
 
-	      if ( $this.attr("data-lang") == key && $this.hasClass('reset') ){ //separately for the "reset" button
+	      if ( $this.attr("data-lang") == key && $this.hasClass('button-sidebar') ){ //separately for the "reset" button
 	      	$this.val(value);
 	      }
 	    });
@@ -41,5 +41,5 @@ var lang = (function(){		//== Languages change module
 }());
 
 $(document).ready(function(){
-	lang.init();
+	lang.init;
 });
