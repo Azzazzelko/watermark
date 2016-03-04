@@ -111,11 +111,11 @@ $( document ).ready(function() {
 		};
 		$.ajax({
 			type: "POST",
-			url: 'php/download.php',
+			url: 'php/download-img.php',
 			data: vars,
 			dataType: 'json'
 		}).done(function( data ) {
-console.log(data);
+			console.log(data);
 		});
 	});
 });
