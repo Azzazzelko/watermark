@@ -1,6 +1,6 @@
 
 $( document ).ready(function() {
-
+	var photoWidth = 2000;
 	var Ymax=5;
     var Xmax=200;
     var opacity; // в переменно перезаписываеться значение нашей прозрачности из слайдера
