@@ -83,7 +83,39 @@ $( document ).ready(function() {
     fileinputListeners();
 
     $('.social-item-like').on("click", function(e){ // социальные кнопки
-        e.stopPropagation();
-        $('.social-list').toggleClass('active');
-    });
+		e.stopPropagation();
+		$('.social-list').toggleClass('active');
+	});
+
+
+	$('.download').on("click", function(e){ // социальные кнопки
+		e.preventDefault();
+		var $img = $('.item-img');
+		var $mark = $('.watermark-img');
+		//console.log($img.attr('src'));
+		var vars = {
+			imgUrl : $img.attr('src'),
+			imgAbsWidth : $img.data('abs-width'),
+			imgAbsHeight: $img.data('abs-height'),
+			imgRelWidth: $img.data('rel-width'),
+			imgRelHeight: $img.data('rel-height'),
+			imgTop: $img.data('top'),
+			imgLeft: $img.data('left'),
+			markUrl : $mark.attr('src'),
+			markAbsWidth: $mark.data('abs-width'),
+			markAbsHeight: $mark.data('abs-height'),
+			markRelWidth: $mark.data('rel-width'),
+			markRelHeight: $mark.data('rel-height'),
+			markTop: $mark.data('top'),
+			markLeft: $mark.data('left')
+		};
+		$.ajax({
+			type: "POST",
+			url: 'php/download.php',
+			data: vars,
+			dataType: 'json'
+		}).done(function( data ) {
+console.log(data);
+		});
+	});
 });

@@ -190,10 +190,14 @@ var ImageSetting = (function() {
       $imgWrap.css({'width': imgWrapRelWidth, 'height': imgWrapRelHeight, 'top': imgWrapTop, 'left': imgWrapLeft});
       $imgWrap.attr('src', imgUrl)
           .attr('data-rel-width', imgWrapRelWidth)
-          .attr('data-rel-height', imgWrapRelHeight);
+          .attr('data-rel-height', imgWrapRelHeight)
+          .attr('data-top', imgWrapTop)
+          .attr('data-left', imgWrapLeft);
       $img.attr('src', imgUrl)
           .attr('data-rel-width', imgWrapRelWidth)
-          .attr('data-rel-height', imgWrapRelHeight);
+          .attr('data-rel-height', imgWrapRelHeight)
+          .attr('data-top', imgWrapTop)
+          .attr('data-left', imgWrapLeft);
     } else {
 
       //console.log(markAbsWidth);
@@ -235,7 +239,9 @@ var ImageSetting = (function() {
       .css({'width': markRelWidth, 'height': markRelHeight, 'top': markTop, 'left': markLeft});
       $mark.attr('src', imgUrl)
           .attr('data-rel-width', markRelWidth)
-          .attr('data-rel-height', markRelHeight);
+          .attr('data-rel-height', markRelHeight)
+          .attr('data-top', imgWrapTop)
+          .attr('data-left', imgWrapLeft);
     }
   };
 
@@ -243,7 +249,7 @@ var ImageSetting = (function() {
   return {
     init:function(result, imgType) {
         _getSizes(result, imgType);
-        
+
     }
   }
 }());
