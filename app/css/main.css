@@ -82,13 +82,14 @@ input, button{
 .container-img{
     width: 651px;
     height: 534px;
-    background: #fff;
+    background: url(../images/img-bg.png) repeat;
     overflow: hidden;
     position: relative;
 }
 
 .watermark-img{
     position: absolute;
+    cursor: pointer;
     top: 0;
     left: 0;
     z-index: 2;
@@ -274,6 +275,7 @@ input, button{
     border-top: 1px solid #9eb2c0;
     vertical-align: top;
     cursor: pointer;
+    transform: translateZ(0);
 }
 
 .active-color{
@@ -424,6 +426,10 @@ input, button{
     margin: 0 0 0 40px;
     border-radius: 3px;
     font: 18px 'robotomedium';
+}
+
+.button-sidebar:hover{
+    background: #9eb2c0;
 }
 
 .button-sidebar:first-child{

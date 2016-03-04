@@ -69,4 +69,20 @@ $( document ).ready(function() {
         e.stopPropagation();
         $('.social-list').toggleClass('active');
     });
+    
+    (function(){ // поделиться в соц сетях
+        $('.social-link-fb').on("click", function(e){
+            window.open('http://www.facebook.com/sharer.php?u=' + document.location, 'a', "width=800,height=400");
+        });
+        
+        $('.social-link-tw').on("click", function(e){
+            window.open('http://twitter.com/share?url=' + document.location, 'a', "width=800,height=400");
+        });
+        
+        $('.social-link-vk').on("click", function(e){
+            window.open('http://vk.com/share.php?url=' + document.location, 'a', "width=800,height=400");
+        });
+        
+    }());
+
 });
