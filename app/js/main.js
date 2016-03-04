@@ -1,10 +1,11 @@
 
 $( document ).ready(function() {
-
+	var photoWidth = 2000;
 	var Ymax=5;
     var Xmax=200;
     var opacity; // в переменно перезаписываеться значение нашей прозрачности из слайдера
-
+    var imgInput=$('#background');
+    var watermarkInput=$('#watermark');
     $("#slider").slider({
 		min: 0,
 		max: 100,
@@ -12,24 +13,40 @@ $( document ).ready(function() {
 		range: "min",
 		stop: function(event, ui) {
 			opacity=jQuery("#slider").slider("value");
-            
+
 	    },
 	    slide: function(event, ui){
 			opacity=jQuery("#slider").slider("value");
 	    }
 	});
 
-    function inputListeners() {
-    	$('.up').on('click', function(){
-    		changePosition($(this),'Y','plus');
-    	})
-    	$('.down').on('click', function(){
-    		changePosition($(this),'Y','minus');
-    	})
-    	$('.color-block').on('click', function(){
-    		defaultPosition($(this));
-    	})
+    function emptyFileField(background,watermark) {
+        background=background.val();
+        watermark=watermark.val();
+        if (background=='' || watermark=='') {
+        return true;
+        }
+        inputListeners();
+    }
+    function inputListeners(){
 
+            $("#slider").slider("enable");
+            $('.up').on('click', function(){
+                changePosition($(this),'Y','plus');
+            })
+            $('.down').on('click', function(){
+                changePosition($(this),'Y','minus');
+            })
+            $('.color-block').on('click', function(){
+                defaultPosition($(this));
+            })
+       }
+
+    function fileinputListeners() {
+        $("#slider").slider("disable");
+        $('.form').on('change','#background, #watermark',function(){
+            emptyFileField(imgInput,watermarkInput);
+        })
     }
 
     function defaultPosition(element) {   // будет задавать 9 стандарных позиций
@@ -63,7 +80,7 @@ $( document ).ready(function() {
     		else { return false;}
     }
 
-    inputListeners();
+    fileinputListeners();
 
     $('.social-item-like').on("click", function(e){ // социальные кнопки
         e.stopPropagation();
@@ -85,4 +102,34 @@ $( document ).ready(function() {
         
     }());
 
+	$('.download').on("click", function(e){
+		e.preventDefault();
+		var $img = $('.item-img');
+		var $mark = $('.watermark-img');
+		//console.log($img.attr('src'));
+		var vars = {
+			imgUrl : $img.attr('src'),
+			imgAbsWidth : $img.data('abs-width'),
+			imgAbsHeight: $img.data('abs-height'),
+			imgRelWidth: $img.data('rel-width'),
+			imgRelHeight: $img.data('rel-height'),
+			imgTop: $img.data('top'),
+			imgLeft: $img.data('left'),
+			markUrl : $mark.attr('src'),
+			markAbsWidth: $mark.data('abs-width'),
+			markAbsHeight: $mark.data('abs-height'),
+			markRelWidth: $mark.data('rel-width'),
+			markRelHeight: $mark.data('rel-height'),
+			markTop: $mark.data('top'),
+			markLeft: $mark.data('left')
+		};
+		$.ajax({
+			type: "POST",
+			url: 'php/download-img.php',
+			data: vars,
+			dataType: 'json'
+		}).done(function( data ) {
+			console.log(data);
+		});
+	});
 });

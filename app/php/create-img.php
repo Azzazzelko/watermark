@@ -9,10 +9,10 @@ if (isset($_POST['formdata'])) {
 	$view = strip_tags(htmlspecialchars(trim($params['view'])));
 	$x_margin = strip_tags(htmlspecialchars(trim($params['x-margin'])));
 	$y_margin = strip_tags(htmlspecialchars(trim($params['y-margin'])));
-	
+
 	$x = strip_tags(htmlspecialchars(trim($params['x-coordinates'])));
 	$y = strip_tags(htmlspecialchars(trim($params['y-coordinates'])));
-	
+
 	$opacity = strip_tags(htmlspecialchars(trim($params['opacity'])));
 	$opacity = $opacity*100;
 } else {
@@ -33,7 +33,7 @@ if (isset($_POST['formdata'])) {
 
 	$background_img = createImg($background_file);
 	$watermark_img = createImg($watermark_file);
-	
+
 
 	// Установка полей для штампа и получение высоты/ширины штампа
 	$x_margin = 100;
@@ -45,7 +45,7 @@ if (isset($_POST['formdata'])) {
 	if ($view == "one") {
 		imagecopymerge($background_img, $watermark_img , $x, $y, 0, 0, $sx , $sy, $opacity);
 	}
-	
+
 
 	// Вывод и освобождение памяти
 	header('Content-type: image/png');
@@ -68,7 +68,7 @@ if (isset($_POST['formdata'])) {
 	          $img = imagecreatefromjpeg($image);
 	          break;
 	      case IMAGETYPE_PNG :
-	          $img = imagecreatefrompng($image);    
+	          $img = imagecreatefrompng($image);
 	          break;
 	      default :
 	          throw new InvalidArgumentException('Invalid image type');
