@@ -18,10 +18,11 @@ $params = array(
 	"markRelWidth" => $_POST["markRelWidth"],
 	"markRelHeight" => $_POST["markRelHeight"],
 	"markTop" => $_POST["markTop"],
-	"markLeft" => $_POST["markLeft"]
+	"markLeft" => $_POST["markLeft"],
+	"markOpacity" => $_POST["markOpacity"]
 );
 
-// для проверки
+// для проверки выводится весь массив в js
 //echo json_encode($params);
 
 if (isset($_POST['formdata'])) {

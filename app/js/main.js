@@ -1,5 +1,31 @@
+//all params
+var vars = {
+	contWidth : 651,
+	contHeight : 534,
+	imgUrl : 0,
+	imgAbsWidth : 0,
+	imgAbsHeight: 0,
+	imgRelWidth: 0,
+	imgRelHeight: 0,
+	imgTop: 0,
+	imgLeft: 0,
+	markUrl : 0,
+	markAbsWidth: 0,
+	markAbsHeight: 0,
+	markRelWidth: 0,
+	markRelHeight: 0,
+	markTop: 0,
+	markLeft: 0,
+	markOpacity: 1
+};
+
+var $cont = $('.container-img');
+var $imgWrap = $('.img-wrap');
+var $img = $('.item-img');
+var $mark = $('.watermark-img');
 
 $( document ).ready(function() {
+
 	var photoWidth = 2000;
 	var Ymax=5;
     var Xmax=200;
@@ -125,25 +151,7 @@ $( document ).ready(function() {
 
 	$('.download').on("click", function(e){
 		e.preventDefault();
-		var $img = $('.item-img');
-		var $mark = $('.watermark-img');
-		//console.log($img.attr('src'));
-		var vars = {
-			imgUrl : $img.attr('src'),
-			imgAbsWidth : $img.data('abs-width'),
-			imgAbsHeight: $img.data('abs-height'),
-			imgRelWidth: $img.data('rel-width'),
-			imgRelHeight: $img.data('rel-height'),
-			imgTop: $img.data('top'),
-			imgLeft: $img.data('left'),
-			markUrl : $mark.attr('src'),
-			markAbsWidth: $mark.data('abs-width'),
-			markAbsHeight: $mark.data('abs-height'),
-			markRelWidth: $mark.data('rel-width'),
-			markRelHeight: $mark.data('rel-height'),
-			markTop: $mark.data('top'),
-			markLeft: $mark.data('left')
-		};
+
 		$.ajax({
 			type: "POST",
 			url: 'php/create-img.php',

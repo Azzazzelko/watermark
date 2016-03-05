@@ -86,162 +86,82 @@ var ImageSetting = (function() {
         imgName = result.text_status,
         imgUrl = 'uploadimg/' + imgName,
         resultWidth = result.data_width,
-        resultHeight = result.data_height,
-
-        $cont = $('.container-img'),
-        contWidth = $cont.data('width'),
-        contHeight = $cont.data('height'),
-
-        $imgWrap = $('.img-wrap'),
-        imgWrapAbsWidth = $imgWrap.attr('data-abs-width'),
-        imgWrapAbsHeight = $imgWrap.attr('data-abs-height'),
-        imgWrapRelWidth = $imgWrap.attr('data-rel-width'),
-        imgWrapRelHeight = $imgWrap.attr('data-rel-height'),
-        imgWrapTop = $imgWrap.attr('data-top'),
-        imgWrapLeft = $imgWrap.attr('data-left'),
-
-        $img = $('.item-img'),
-        imgAbsWidth = $img.attr('data-abs-width'),
-        imgAbsHeight = $img.attr('data-abs-height'),
-        imgRelWidth = $img.attr('data-rel-width'),
-        imgRelHeight = $img.attr('data-rel-height'),
-
-
-        $mark = $('.watermark-img'),
-        markAbsWidth = $mark.attr('data-abs-width'),
-        markAbsHeight = $mark.attr('data-abs-height'),
-        markRelWidth = $mark.attr('data-rel-width'),
-        markRelHeight = $mark.attr('data-rel--height'),
-        markTop = $mark.attr('data-top'),
-        markLeft = $mark.attr('data-left');
-
-
-
+        resultHeight = result.data_height;
 
     if (imgType == 'background') {
-      $imgWrap.attr('src', imgUrl)
-          .attr('data-abs-width', resultWidth)
-          .attr('data-abs-height', resultHeight);
-      $img.attr('src', imgUrl)
-          .attr('data-abs-width', resultWidth)
-          .attr('data-abs-height', resultHeight);
-      imgWrapAbsWidth = resultWidth;
-      imgWrapAbsHeight = resultHeight;
-      imgAbsWidth = resultWidth;
-      imgAbsHeight = resultHeight;
-      $mark
-          .attr('data-abs-width', 0)
-          .attr('data-abs-height', 0)
-          .attr('data-rel-width', 0)
-          .attr('data-rel-height', 0)
-          .css({'width': 0, 'height': 0, 'top': 0, 'left': 0});
-      markAbsWidth = 0;
-      markAbsHeight = 0;
-
+      vars.imgUrl = imgUrl;
+      vars.imgWrapAbsWidth = resultWidth;
+      vars.imgWrapAbsHeight = resultHeight;
+      vars.imgAbsWidth = resultWidth;
+      vars.imgAbsHeight = resultHeight;
+      $mark.css({'width': 0, 'height': 0, 'top': 0, 'left': 0});
+      vars.markAbsWidth = 0;
+      vars.markAbsHeight = 0;
     } else {
-      $mark.attr('src', imgUrl)
-          .attr('data-abs-width', resultWidth)
-          .attr('data-abs-height', resultHeight);
-      markAbsWidth = resultWidth;
-      markAbsHeight = resultHeight;
+      vars.markUrl = imgUrl;
+      vars.markAbsWidth = resultWidth;
+      vars.markAbsHeight = resultHeight;
     }
 
 
 
     if (imgType == 'background') {
-      if ((imgAbsWidth > contWidth) || (imgAbsHeight >contHeight)) {
+      if ((vars.imgAbsWidth > vars.contWidth) || (vars.imgAbsHeight >vars.contHeight)) {
 
 
-        if (imgAbsWidth / contWidth >= imgAbsHeight / contHeight) {
-          var
-              imgRelWidth = contWidth,
-              imgRelHeight = Math.round(contWidth * imgAbsHeight / imgAbsWidth);
+        if (vars.imgAbsWidth / vars.contWidth >= vars.imgAbsHeight / vars.contHeight) {
 
-              imgWrapRelWidth = imgRelWidth,
-              imgWrapRelHeight = imgRelHeight;
+              vars.imgRelWidth = vars.contWidth;
+              vars.imgRelHeight = Math.round(vars.contWidth * vars.imgAbsHeight / vars.imgAbsWidth);
 
-          imgWrapLeft = 0;
-          imgWrapTop = Math.round((contHeight - imgWrapRelHeight) / 2);
+              vars.imgWrapRelWidth = vars.imgRelWidth;
+              vars.imgWrapRelHeight = vars.imgRelHeight;
+
+          vars.imgWrapLeft = 0;
+          vars.imgWrapTop = Math.round((vars.contHeight - vars.imgWrapRelHeight) / 2);
 
         } else {
-          var
-              imgRelWidth = Math.round(contHeight * imgAbsWidth / imgAbsHeight),
-              imgRelHeight = contHeight;
+              vars.imgRelWidth = Math.round(vars.contHeight * vars.imgAbsWidth / vars.imgAbsHeight);
+              vars.imgRelHeight = vars.contHeight;
 
-              imgWrapRelWidth = imgRelWidth,
-              imgWrapRelHeight = imgRelHeight;
+              vars.imgWrapRelWidth = vars.imgRelWidth;
+              vars.imgWrapRelHeight = vars.imgRelHeight;
 
-          imgWrapLeft = Math.round((contWidth - imgWrapRelWidth) / 2);
-          imgWrapTop = 0;
-
+          vars.imgWrapLeft = Math.round((vars.contWidth - vars.imgWrapRelWidth) / 2);
+          vars.imgWrapTop = 0;
         }
       } else {
-        var
-            imgRelWidth = imgAbsWidth,
-            imgRelHeight = imgAbsHeight;
+            vars.imgRelWidth = vars.imgAbsWidth;
+            vars.imgRelHeight = vars.imgAbsHeight;
 
-            imgWrapRelWidth = imgRelWidth,
-            imgWrapRelHeight = imgRelHeight;
+            vars.imgWrapRelWidth = vars.imgRelWidth;
+            vars.imgWrapRelHeight = vars.imgRelHeight;
 
-            imgWrapLeft = Math.round((contWidth - imgWrapRelWidth) / 2);
-            imgWrapTop = Math.round((contHeight - imgWrapRelHeight) / 2);
+            vars.imgWrapLeft = Math.round((vars.contWidth - vars.imgWrapRelWidth) / 2);
+            vars.imgWrapTop = Math.round((vars.contHeight - vars.imgWrapRelHeight) / 2);
       }
-      $img.attr('width', imgRelWidth).attr('height', imgRelHeight);
-      $imgWrap.css({'width': imgWrapRelWidth, 'height': imgWrapRelHeight, 'top': imgWrapTop, 'left': imgWrapLeft});
-      $imgWrap.attr('src', imgUrl)
-          .attr('data-rel-width', imgWrapRelWidth)
-          .attr('data-rel-height', imgWrapRelHeight)
-          .attr('data-top', imgWrapTop)
-          .attr('data-left', imgWrapLeft);
-      $img.attr('src', imgUrl)
-          .attr('data-rel-width', imgWrapRelWidth)
-          .attr('data-rel-height', imgWrapRelHeight)
-          .attr('data-top', imgWrapTop)
-          .attr('data-left', imgWrapLeft);
+      $img.attr('src', vars.imgUrl).attr('width', vars.imgRelWidth).attr('height', vars.imgRelHeight);
+      $imgWrap.css({'width': vars.imgWrapRelWidth, 'height': vars.imgWrapRelHeight, 'top': vars.imgWrapTop, 'left': vars.imgWrapLeft});
+
+
     } else {
+      if ((vars.markAbsWidth > Math.round(vars.imgWrapRelWidth)) || (vars.markAbsHeight > Math.round(vars.imgWrapRelHeight))) {
 
-      //console.log(markAbsWidth);
-      //console.log(imgWrapRelWidth);
-      //console.log(markAbsHeight);
-      //console.log(imgWrapRelHeight);
-
-      if ((markAbsWidth > Math.round(imgWrapRelWidth)) || (markAbsHeight > Math.round(imgWrapRelHeight))) {
-
-        if (markAbsWidth / imgWrapRelWidth >= markAbsHeight / imgWrapRelHeight) {
-          var
-              markRelWidth = imgWrapRelWidth,
-              markRelHeight = Math.round(imgWrapRelWidth * markAbsHeight / markAbsWidth)
-              ;
-
-          //markLeft = 0;
-          //markTop = (wrapRelHeight - markRelHeight) / 2;
+        if (vars.markAbsWidth / vars.imgWrapRelWidth >= vars.markAbsHeight / vars.imgWrapRelHeight) {
+              vars.markRelWidth = vars.imgWrapRelWidth;
+              vars.markRelHeight = Math.round(vars.imgWrapRelWidth * vars.markAbsHeight / vars.markAbsWidth);
 
         } else {
-          var
-              markRelHeight = imgWrapRelHeight,
-              markRelWidth = Math.round(imgWrapRelHeight * markAbsWidth / markAbsHeight)
-          ;
-
-          //markLeft = (wrapRelWidth - markRelWidth) / 2;
-          //markTop = 0;
+              vars.markRelHeight = vars.imgWrapRelHeight;
+              vars.markRelWidth = Math.round(vars.imgWrapRelHeight * vars.markAbsWidth / vars.markAbsHeight);
 
         }
-
       } else {
-
-        var
-            markRelWidth = markAbsWidth,
-            markRelHeight = markAbsHeight;
-
-
+            vars.markRelWidth = vars.markAbsWidth;
+            vars.markRelHeight = vars.markAbsHeight;
       }
-      $mark//.attr('width', markRelWidth).attr('height', markRelHeight)
-      .css({'width': markRelWidth, 'height': markRelHeight, 'top': markTop, 'left': markLeft});
-      $mark.attr('src', imgUrl)
-          .attr('data-rel-width', markRelWidth)
-          .attr('data-rel-height', markRelHeight)
-          .attr('data-top', imgWrapTop)
-          .attr('data-left', imgWrapLeft);
+      $mark.css({'width': vars.markRelWidth, 'height': vars.markRelHeight, 'top': vars.markTop, 'left': vars.markLeft});
+      $mark.attr('src', vars.markUrl);
     }
   };
 
