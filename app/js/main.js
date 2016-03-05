@@ -111,7 +111,7 @@ $( document ).ready(function() {
 		};
 		$.ajax({
 			type: "POST",
-			url: 'php/download-img.php',
+			url: 'php/create-img.php',
 			data: vars,
 			dataType: 'json'
 		}).done(function( data ) {
