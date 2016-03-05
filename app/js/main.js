@@ -6,31 +6,51 @@ $( document ).ready(function() {
     var opacity; // в переменно перезаписываеться значение нашей прозрачности из слайдера
     var imgInput=$('#background');
     var watermarkInput=$('#watermark');
+    var formBlock=watermarkInput.closest('.container-form');
+    var formBlockSiblings=formBlock.siblings('.container-form, .container-button');
+
     $("#slider").slider({
-		min: 0,
-		max: 100,
-		value: 0,
-		range: "min",
-		stop: function(event, ui) {
-			opacity=jQuery("#slider").slider("value");
+        min: 0,
+        max: 100,
+        value: 0,
+        range: "min",
+        stop: function(event, ui) {
+            opacity=jQuery("#slider").slider("value");
 
-	    },
-	    slide: function(event, ui){
-			opacity=jQuery("#slider").slider("value");
-	    }
-	});
+        },
+        slide: function(event, ui){
+            opacity=jQuery("#slider").slider("value");
+        }
+    });
 
-    function emptyFileField(background,watermark) {
+    function watermarkType($this){
+        if ($this.val()=='one') {
+            $('.active-color-horizontal-field, .active-color-vertical-field').hide();
+            $('.color-block:eq(0)').addClass('active-color');
+        } else {
+            $('.active-color').removeClass('active-color');
+            $('.active-color-horizontal-field, .active-color-vertical-field').show();
+
+        }
+    }
+
+    function emptyFileField(background,watermark) { // проверка на наличие значения в fileFields
         background=background.val();
         watermark=watermark.val();
         if (background=='' || watermark=='') {
-        return true;
+            disableListeners();
+            return true;
         }
         inputListeners();
     }
+    function disableListeners(){    // отключает все обработчики кроме тех которые в fileFields
+        formBlockSiblings.each(function(){
+            var disableBlock="<div class='disabler__block'></div>";
+            $(this).append(disableBlock);
+            $('#slider').slider({value:0})
+        });
+    }
     function inputListeners(){
-
-            $("#slider").slider("enable");
             $('.up').on('click', function(){
                 changePosition($(this),'Y','plus');
             })
@@ -40,44 +60,45 @@ $( document ).ready(function() {
             $('.color-block').on('click', function(){
                 defaultPosition($(this));
             })
+            $('.view').on('click',function(){
+                watermarkType($(this));
+            })
+
+            $('.disabler__block').remove();
+            $('.view').triggerHandler('click', function(){ alert('fghgfh'); watermarkType($('.view:checked'))  });
        }
 
     function fileinputListeners() {
-        $("#slider").slider("disable");
+        disableListeners();
         $('.form').on('change','#background, #watermark',function(){
             emptyFileField(imgInput,watermarkInput);
         })
     }
 
     function defaultPosition(element) {   // будет задавать 9 стандарных позиций
-    	// body...
+        // body...
     }
     function findInput(input) {
-    	var parent=input.closest('.container-coordinates');
-    	return parent.find('input');
+        var parent=input.closest('.container-coordinates');
+        return parent.find('input');
     }
 
     function changePosition($this,axis,action) {
-    	var input=findInput($this);
-    	var inputValue=input.val();
-    		if(validateValues(inputValue,axis)) {
-    			if (action=='minus') {
-    				inputValue!=0 ? inputValue-- : inputValue;
-    			} else { inputValue++; }
-	    		input.val(inputValue);
-    		}
+        var input=findInput($this);
+        var inputValue=input.val();
+            if(validateValues(inputValue,axis)) {
+                if (action=='minus') {
+                    inputValue!=0 ? inputValue-- : inputValue;
+                } else { inputValue++; }
+                input.val(inputValue);
+            }
     }
     function validateValues(value,axis) {
-    	var max;
-    	switch (axis) {
-    		case 'Y': 	max=Ymax;
-    					break;
-    		case 'X': 	max=Xmax;
-    					break;
-    		default: alert('Ось не задана');
-    	}
-    	if(value>=0 && value<max)	{return true;}
-    		else { return false;}
+        var max;
+        if (axis=='Y') {max=Ymax;}
+            else { max=Xmax;      }
+        if(value>=0 && value<max)   {return true;}
+            else { return false;}
     }
 
     fileinputListeners();
