@@ -158,7 +158,16 @@ $( document ).ready(function() {
 			data: vars,
 			dataType: 'json'
 		}).done(function( data ) {
+            downloadResImg(data.result);
 			console.log(data);
 		});
 	});
+
+    function downloadResImg(response) {
+        var href = 'php/download-img.php?file='+response;
+        window.downloadFile = function(url) {
+        window.open(url, '_self');
+    }
+        window.downloadFile(href);
+    };
 });
