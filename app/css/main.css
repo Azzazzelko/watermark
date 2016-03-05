@@ -33,7 +33,7 @@ input, button{
 
 .clearfix:before,
 .clearfix:after {
-    content: ''; 
+    content: '';
     display: table;
 }
 
@@ -82,13 +82,14 @@ input, button{
 .container-img{
     width: 651px;
     height: 534px;
-    background: #fff;
+    background: url(../images/img-bg.png) repeat;
     overflow: hidden;
     position: relative;
 }
 
 .watermark-img{
     position: absolute;
+    cursor: pointer;
     top: 0;
     left: 0;
     z-index: 2;
@@ -138,7 +139,7 @@ input, button{
     border-top: 10px solid #f4c3c2;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    
+
 }
 
 .container-form:before{
@@ -156,7 +157,7 @@ input, button{
     font: 14px 'robotolight';
 }
 
-.fileform{    
+.fileform{
     cursor: pointer;
     overflow: hidden;
     position: relative;
@@ -165,7 +166,7 @@ input, button{
 }
 
 .selectbutton {
-    float: right;    
+    float: right;
     overflow: hidden;
     height: 14px;
     padding: 6px;
@@ -180,9 +181,9 @@ input, button{
     cursor: pointer;
     position:absolute;
     top:0;
-    right:0;    
+    right:0;
     filter: alpha(opacity=0);
-    opacity: 0;    
+    opacity: 0;
     z-index:20;
     padding: 0;
     font-size: 200px;
@@ -190,7 +191,7 @@ input, button{
 
 .fileform .fileformlabel {
     background-color: #FFFFFF;
-    float: left;    
+    float: left;
     overflow: hidden;
     height: 16px;
     padding: 4px;
@@ -239,12 +240,12 @@ input, button{
 }
 
 .view:checked+.normal-view{
-    background: url(../images/view-sprt.png) no-repeat -35px 0; 
+    background: url(../images/view-sprt.png) no-repeat -35px 0;
 }
 
 
 .view:checked+.view-grid{
-    background: url(../images/view-sprt.png) no-repeat 0 0; 
+    background: url(../images/view-sprt.png) no-repeat 0 0;
 }
 
 
@@ -274,6 +275,7 @@ input, button{
     border-top: 1px solid #9eb2c0;
     vertical-align: top;
     cursor: pointer;
+    transform: translateZ(0);
 }
 
 .active-color{
@@ -287,7 +289,7 @@ input, button{
 }
 
 .active-color-horizontal-field{
-    
+
     top: 50%;
     left: 0;
     width: 100%;
@@ -411,7 +413,8 @@ input, button{
 
 .container-button{
     letter-spacing: -0.3em;
-    padding: 45px 10px 0 10px;
+    margin: 45px 10px 0 10px;
+    position: relative;
 }
 
 .button-sidebar{
@@ -424,6 +427,10 @@ input, button{
     margin: 0 0 0 40px;
     border-radius: 3px;
     font: 18px 'robotomedium';
+}
+
+.button-sidebar:hover{
+    background: #9eb2c0;
 }
 
 .button-sidebar:first-child{
@@ -553,4 +560,14 @@ input, button{
 }
 .img-wrap {
     position:relative;
+}
+.disabler__block {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height:100%;
+    width: 100%;
+    background: #f1f1f5;
+    opacity: 0.5;
+    z-index: 9999;
 }
