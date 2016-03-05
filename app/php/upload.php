@@ -27,7 +27,7 @@ if(isset($_FILES['files']) && $_FILES['files']['error'] == 0){
 		}
 
 		// Новое имя файла
-		$new_file_name = session_id().'-'.uniqid().'-'.$_COOKIE['imgtype'].'.'.$extension;
+		$new_file_name = session_id().'-'.$_COOKIE['imgtype'].'.'.$extension;
 
 		// Полный путь куда копировать
 		$final_path = "../".$project_dir."/".$new_file_name;
