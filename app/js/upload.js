@@ -81,7 +81,7 @@
 
 var ImageSetting = (function() {
   var _getSizes = function(result, imgType) {
-
+console.log(result);
     var
         imgName = result.text_status,
         imgUrl = 'uploadimg/' + imgName,
@@ -138,7 +138,7 @@ var ImageSetting = (function() {
             vars.imgWrapRelHeight = vars.imgRelHeight;
 
       }
-      $img.attr('src', vars.imgUrl).attr('width', vars.imgRelWidth).attr('height', vars.imgRelHeight);
+      $img.removeAttr("src").attr('src', vars.imgUrl).attr('width', vars.imgRelWidth).attr('height', vars.imgRelHeight);
       $imgWrap.css({'width': vars.imgWrapRelWidth, 'height': vars.imgWrapRelHeight});
 
 
@@ -158,8 +158,10 @@ var ImageSetting = (function() {
             vars.markRelWidth = vars.markAbsWidth;
             vars.markRelHeight = vars.markAbsHeight;
       }
+      console.log(imgUrl);
+      console.log(vars.markUrl);
       $mark.css({'width': vars.markRelWidth, 'height': vars.markRelHeight, 'top': vars.markTop, 'left': vars.markLeft});
-      $mark.attr('src', vars.markUrl);
+      $mark.removeAttr("src").attr('src', vars.markUrl);
     }
   };
 
