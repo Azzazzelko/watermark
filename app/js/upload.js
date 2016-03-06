@@ -97,7 +97,7 @@ console.log(result);
       vars.imgWrapAbsHeight = resultHeight;
       vars.imgAbsWidth = resultWidth;
       vars.imgAbsHeight = resultHeight;
-      $mark.css({'width': 0, 'height': 0, 'top': 0, 'left': 0});
+      $mark.removeAttr("src").css({'width': 0, 'height': 0, 'top': 0, 'left': 0});
       vars.markAbsWidth = 0;
       vars.markAbsHeight = 0;
     } else {
@@ -138,7 +138,7 @@ console.log(result);
             vars.imgWrapRelHeight = vars.imgRelHeight;
 
       }
-      $img.removeAttr("src").attr('src', vars.imgUrl).attr('width', vars.imgRelWidth).attr('height', vars.imgRelHeight);
+      $img.removeAttr("src").attr('src', vars.imgUrl+'?'+Math.random()).attr('width', vars.imgRelWidth).attr('height', vars.imgRelHeight);
       $imgWrap.css({'width': vars.imgWrapRelWidth, 'height': vars.imgWrapRelHeight});
 
 
@@ -158,10 +158,8 @@ console.log(result);
             vars.markRelWidth = vars.markAbsWidth;
             vars.markRelHeight = vars.markAbsHeight;
       }
-      console.log(imgUrl);
-      console.log(vars.markUrl);
       $mark.css({'width': vars.markRelWidth, 'height': vars.markRelHeight, 'top': vars.markTop, 'left': vars.markLeft});
-      $mark.removeAttr("src").attr('src', vars.markUrl);
+      $mark.removeAttr("src").attr('src', vars.markUrl+'?'+Math.random());
     }
   };
 
