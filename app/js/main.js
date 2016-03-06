@@ -35,15 +35,18 @@ $( document ).ready(function() {
 
     $("#slider").slider({
         min: 0,
-        max: 100,
-        value: 0,
-        range: "min",
+        max: 1,
+        step: 0.1,
+        value: vars.markOpacity,
         stop: function(event, ui) {
             vars.markOpacity=jQuery("#slider").slider("value");
-
+            $mark.css({opacity: vars.markOpacity});
         },
         slide: function(event, ui){
             vars.markOpacity=jQuery("#slider").slider("value");
+            $mark.css({opacity: vars.markOpacity});
+
+
         }
     });
 
@@ -80,6 +83,7 @@ $( document ).ready(function() {
             })
             $('.down').on('click', function(){
                 changePosition($(this),'Y','minus');
+
             })
             $('.color-block').on('click', function(){
                 defaultPosition($(this));
@@ -110,11 +114,29 @@ $( document ).ready(function() {
     function changePosition($this,axis,action) {
         var input=findInput($this);
         var inputValue=input.val();
+
             if(validateValues(inputValue,axis)) {
                 if (action=='minus') {
                     inputValue!=0 ? inputValue-- : inputValue;
-                } else { inputValue!= inputValue++; }
+                    console.log(axis);
+                    if (axis == 'Y') {
+                        vars.markLeft = vars.markLeft -10;
+                    } else {
+                        vars.markTop = vars.markTop -10;
+                    }
+                } else {
+                    inputValue!= inputValue++;
+
+                    if (axis == 'Y') {
+                        vars.markLeft = vars.markLeft + 10;
+
+                    } else {
+                        vars.markTop = vars.markTop + 10;
+                    }
+                }
                 input.val(inputValue);
+                $mark.css({top : vars.markTop, left: vars.markLeft});
+
             }
     }
     function validateValues(value,axis) {
