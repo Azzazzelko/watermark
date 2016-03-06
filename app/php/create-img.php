@@ -64,4 +64,5 @@ if ($view == "one") {
 $data = array();
 $data['result'] = $result_name;
 echo json_encode($data);
+
 ?>

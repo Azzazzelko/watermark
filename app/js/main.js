@@ -7,6 +7,7 @@ var vars = {
 	imgAbsHeight: 0,
 	imgRelWidth: 0,
 	imgRelHeight: 0,
+    imgRelCoef: 0, // rel/abs  (0..1)
 	imgTop: 0,
 	imgLeft: 0,
 	markUrl : 0,
