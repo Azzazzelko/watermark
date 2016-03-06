@@ -88,6 +88,9 @@ var ImageSetting = (function() {
         resultWidth = result.data_width,
         resultHeight = result.data_height;
 
+
+
+
     if (imgType == 'background') {
       vars.imgUrl = imgUrl;
       vars.imgWrapAbsWidth = resultWidth;
