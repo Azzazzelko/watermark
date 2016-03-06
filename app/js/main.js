@@ -27,9 +27,6 @@ var $mark = $('.watermark-img');
 $( document ).ready(function() {
 
 	var photoWidth = 2000;
-	var Ymax=5;
-    var Xmax=200;
-    var opacity; // в переменно перезаписываеться значение нашей прозрачности из слайдера
     var imgInput=$('#background');
     var watermarkInput=$('#watermark');
     var formBlock=watermarkInput.closest('.container-form');
@@ -41,11 +38,11 @@ $( document ).ready(function() {
         value: 0,
         range: "min",
         stop: function(event, ui) {
-            opacity=jQuery("#slider").slider("value");
+            vars.markOpacity=jQuery("#slider").slider("value");
 
         },
         slide: function(event, ui){
-            opacity=jQuery("#slider").slider("value");
+            vars.markOpacity=jQuery("#slider").slider("value");
         }
     });
 
@@ -115,15 +112,15 @@ $( document ).ready(function() {
             if(validateValues(inputValue,axis)) {
                 if (action=='minus') {
                     inputValue!=0 ? inputValue-- : inputValue;
-                } else { inputValue++; }
+                } else { inputValue!= inputValue++; }
                 input.val(inputValue);
             }
     }
     function validateValues(value,axis) {
         var max;
-        if (axis=='Y') {max=Ymax;}
-            else { max=Xmax;      }
-        if(value>=0 && value<max)   {return true;}
+        if (axis=='Y') {max=vars.imgRelHeight;}
+            else { max=vars.imgRelWidth;      }
+        if(value>=0 && value<=max)   {return true;}
             else { return false;}
     }
 
@@ -133,20 +130,20 @@ $( document ).ready(function() {
         e.stopPropagation();
         $('.social-list').toggleClass('active');
     });
-    
+
     (function(){ // поделиться в соц сетях
         $('.social-link-fb').on("click", function(e){
             window.open('http://www.facebook.com/sharer.php?u=' + document.location, 'a', "width=800,height=400");
         });
-        
+
         $('.social-link-tw').on("click", function(e){
             window.open('http://twitter.com/share?url=' + document.location, 'a', "width=800,height=400");
         });
-        
+
         $('.social-link-vk').on("click", function(e){
             window.open('http://vk.com/share.php?url=' + document.location, 'a', "width=800,height=400");
         });
-        
+
     }());
 
 	$('.download').on("click", function(e){
@@ -158,7 +155,16 @@ $( document ).ready(function() {
 			data: vars,
 			dataType: 'json'
 		}).done(function( data ) {
+            downloadResImg(data.result);
 			console.log(data);
 		});
 	});
+
+    function downloadResImg(response) {
+        var href = 'php/download-img.php?file='+response;
+        window.downloadFile = function(url) {
+        window.open(url, '_self');
+    }
+        window.downloadFile(href);
+    };
 });

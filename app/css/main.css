@@ -560,6 +560,11 @@ input, button{
 }
 .img-wrap {
     position:relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    margin: 0 auto;
 }
 .disabler__block {
     position: absolute;

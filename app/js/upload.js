@@ -120,8 +120,6 @@ var ImageSetting = (function() {
               vars.imgWrapRelWidth = vars.imgRelWidth;
               vars.imgWrapRelHeight = vars.imgRelHeight;
 
-          vars.imgWrapLeft = 0;
-          vars.imgWrapTop = Math.round((vars.contHeight - vars.imgWrapRelHeight) / 2);
 
         } else {
               vars.imgRelWidth = Math.round(vars.contHeight * vars.imgAbsWidth / vars.imgAbsHeight);
@@ -130,8 +128,7 @@ var ImageSetting = (function() {
               vars.imgWrapRelWidth = vars.imgRelWidth;
               vars.imgWrapRelHeight = vars.imgRelHeight;
 
-          vars.imgWrapLeft = Math.round((vars.contWidth - vars.imgWrapRelWidth) / 2);
-          vars.imgWrapTop = 0;
+
         }
       } else {
             vars.imgRelWidth = vars.imgAbsWidth;
@@ -140,11 +137,9 @@ var ImageSetting = (function() {
             vars.imgWrapRelWidth = vars.imgRelWidth;
             vars.imgWrapRelHeight = vars.imgRelHeight;
 
-            vars.imgWrapLeft = Math.round((vars.contWidth - vars.imgWrapRelWidth) / 2);
-            vars.imgWrapTop = Math.round((vars.contHeight - vars.imgWrapRelHeight) / 2);
       }
       $img.attr('src', vars.imgUrl).attr('width', vars.imgRelWidth).attr('height', vars.imgRelHeight);
-      $imgWrap.css({'width': vars.imgWrapRelWidth, 'height': vars.imgWrapRelHeight, 'top': vars.imgWrapTop, 'left': vars.imgWrapLeft});
+      $imgWrap.css({'width': vars.imgWrapRelWidth, 'height': vars.imgWrapRelHeight});
 
 
     } else {
