@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="fonts/stylesheet.css">
 	<link rel="stylesheet" href="css/libs/jquery-ui.min.css">
 	<link rel="stylesheet" href="css/main.css">
-   
+
     </head>
 <body>
     <div class="wrapper">
@@ -59,7 +59,7 @@
                                     <span data-lang="position">Положение</span>
                                     <div class="container-view-radio">
                                        <label class="wrapp-view">
-                                           <input type="radio" name="view" class="view" value="one" checked>
+                                           <input type="radio" name="view" class="view" value="one" >
                                             <span class="view-block normal-view "></span>
                                        </label>
                                        <label class="wrapp-view">
@@ -74,36 +74,36 @@
                                     <ul class="container-color-block">
                                         <li class="active-color-field active-color-horizontal-field"></li>
                                         <li class="active-color-field active-color-vertical-field"></li>
-                                        <li class="color-block active-color"></li>
-                                        <li class="color-block"></li>
-                                        <li class="color-block"></li>
-                                        <li class="color-block"></li>
-                                        <li class="color-block"></li>
-                                        <li class="color-block"></li>
-                                        <li class="color-block"></li>
-                                        <li class="color-block"></li>
-                                        <li class="color-block"></li>
+                                        <li class="color-block active-color" data-default='topL'></li>
+                                        <li class="color-block" data-default='topC'></li>
+                                        <li class="color-block" data-default='topR'></li>
+                                        <li class="color-block" data-default='centerL'></li>
+                                        <li class="color-block" data-default='centerC'></li>
+                                        <li class="color-block" data-default='centerR'></li>
+                                        <li class="color-block" data-default='bottomL'></li>
+                                        <li class="color-block" data-default='bottomC'></li>
+                                        <li class="color-block" data-default='bottomR'type=""></li>
                                     </ul>
                                     <div class="wrapp-coordinates">
                                         <div class="container-coordinates">
                                             <div class="coordinates">X</div>
-                                            <input type="text" value="0" name="x-coordinates" class="coordinates-value">
+                                            <input type="text" value="0" name="x-coordinates" class="coordinates-value" data-direction='x'>
                                             <div class="switch-container">
-                                                <div class="switch up"></div>
-                                                <div class="switch down"></div>
+                                                <div class="switch up" data-action='increment'></div>
+                                                <div class="switch down" data-action='decrement'></div>
                                             </div>
                                         </div>
                                         <div class="container-coordinates">
                                             <div class="coordinates">Y</div>
-                                            <input type="text" value="0" name="y-coordinates" class="coordinates-value">
+                                            <input type="text" value="0" name="y-coordinates" class="coordinates-value" data-direction='y'>
                                             <div class="switch-container">
-                                                <div class="switch up"></div>
-                                                <div class="switch down"></div>
+                                                <div class="switch up" data-action='increment'></div>
+                                                <div class="switch down" data-action='decrement'></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div class="container-form">
                                 <div class="label-sidebar-form label-margin" data-lang="opacity">

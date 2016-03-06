@@ -1,3 +1,4 @@
+$( document ).ready(function() {
 (function(){
 
   init();
@@ -78,7 +79,7 @@
       }
     }
 })();
-
+var i=0;
 var ImageSetting = (function() {
   var _getSizes = function(result, imgType) {
 
@@ -97,6 +98,7 @@ var ImageSetting = (function() {
       $mark.css({'width': 0, 'height': 0, 'top': 0, 'left': 0});
       vars.markAbsWidth = 0;
       vars.markAbsHeight = 0;
+      console.log(i++);
     } else {
       vars.markUrl = imgUrl;
       vars.markAbsWidth = resultWidth;
@@ -138,7 +140,6 @@ var ImageSetting = (function() {
       $img.attr('src', vars.imgUrl).attr('width', vars.imgRelWidth).attr('height', vars.imgRelHeight);
       $imgWrap.css({'width': vars.imgWrapRelWidth, 'height': vars.imgWrapRelHeight});
 
-
     } else {
       if ((vars.markAbsWidth > Math.round(vars.imgWrapRelWidth)) || (vars.markAbsHeight > Math.round(vars.imgWrapRelHeight))) {
 
@@ -157,6 +158,11 @@ var ImageSetting = (function() {
       }
       $mark.css({'width': vars.markRelWidth, 'height': vars.markRelHeight, 'top': vars.markTop, 'left': vars.markLeft});
       $mark.attr('src', vars.markUrl);
+      vars.markTopLimit=(vars.imgRelHeight-vars.markRelHeight);
+      vars.markLeftLimit=(vars.imgRelWidth-vars.markRelWidth);
+      console.log(vars);
+      setLimits();
+      setDefaultPosition(); // установка 9-ти стандартных позиций
     }
   };
 
@@ -168,3 +174,5 @@ var ImageSetting = (function() {
     }
   }
 }());
+
+});
