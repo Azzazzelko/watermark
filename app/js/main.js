@@ -7,6 +7,7 @@ var vars = {
 	imgAbsHeight: 0,
 	imgRelWidth: 0,
 	imgRelHeight: 0,
+    imgRelCoef: 0, // rel/abs  (0..1)
 	imgTop: 0,
 	imgLeft: 0,
 	markUrl : 0,
@@ -73,13 +74,12 @@ $( document ).ready(function() {
 
     $("#slider").slider({
         min: 0,
-        max: 100,
-        value: 0,
-        range: "min",
+        max: 1,
+        step: 0.1,
+        value: vars.markOpacity,
         stop: function(event, ui) {
             vars.markOpacity=jQuery("#slider").slider("value");
             setOpacity(jQuery("#slider").slider("value"));
-
         },
         slide: function(event, ui){
             vars.markOpacity=jQuery("#slider").slider("value");
@@ -88,8 +88,6 @@ $( document ).ready(function() {
     });
 
     function setOpacity(value){
-        value=parseInt(value, 10);
-        value=value/100;
         $('.watermark-img').css({'opacity' : value});
     }
 
@@ -123,7 +121,6 @@ $( document ).ready(function() {
         });
     }
     function inputListeners(){
-
             $('.switch-container').on('click','.up, .down', function(){
                 changeValue($(this));
             });

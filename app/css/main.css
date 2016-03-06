@@ -426,10 +426,7 @@ input, button{
     margin: 0 0 0 40px;
     border-radius: 3px;
     font: 18px 'robotomedium';
-}
-
-.button-sidebar:hover{
-    background: #9eb2c0;
+    border: 1px solid transparent;
 }
 
 .button-sidebar:first-child{
@@ -440,8 +437,26 @@ input, button{
     background: #c1cfd9;
 }
 
+.reset:hover{
+    background: #9eb2c0;
+}
+
+.reset:active{
+    border: 1px solid #df7069;
+    color: #2e3641;
+}
+
 .download{
     background: #f97e76;
+}
+
+.download:hover{
+    background: #df7069;
+}
+
+.download:active{
+    color: #2e3641;
+    border: 1px solid #9eb2c0;
 }
 
 /*_____________________________________________*/
