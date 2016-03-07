@@ -17,7 +17,7 @@ var vars = {
 	markRelHeight: 0,
 	markTop: 0,
 	markLeft: 0,
-	markOpacity: 1,
+	markOpacity: 0,
     markTopLimit: 0,
     markLeftLimit: 0,
 };
@@ -43,6 +43,9 @@ var defaultPosition = {
             var centerTop=(vars.imgRelHeight/2)-(vars.markRelHeight/2);
             var centerLeft=(vars.imgRelWidth/2)-(vars.markRelWidth/2);
 
+            centerLeft=Math.round(centerLeft);
+            centerTop=Math.round(centerTop);
+
             defaultPosition.topL=[0,0];
             defaultPosition.topC=[0,centerLeft];
             defaultPosition.topR=[0,markOne.limitLeft];
@@ -56,8 +59,8 @@ var defaultPosition = {
             defaultPosition.bottomR=[markOne.limitTop,markOne.limitLeft];
     }
     function setLimits() {
-        markOne.limitTop=(vars.imgRelHeight-vars.markRelHeight);
-        markOne.limitLeft=(vars.imgRelWidth-vars.markRelWidth);
+        markOne.limitTop=Math.round(vars.imgRelHeight-vars.markRelHeight);
+        markOne.limitLeft=Math.round(vars.imgRelWidth-vars.markRelWidth);
     }
 var $cont = $('.container-img');
 var $imgWrap = $('.img-wrap');
@@ -73,31 +76,32 @@ $( document ).ready(function() {
     var formBlockSiblings=formBlock.siblings('.container-form, .container-button');
 
     $("#slider").slider({
-        min: 0,
-        max: 1,
-        step: 0.1,
+        range: 'min',
+        min: -1,
+        max: 0,
+        step: 0.01,
         value: vars.markOpacity,
         stop: function(event, ui) {
-            vars.markOpacity=jQuery("#slider").slider("value");
-            setOpacity(jQuery("#slider").slider("value"));
+            vars.markOpacity=jQuery("#slider").slider("value")*(-1);
+            setOpacity();
         },
         slide: function(event, ui){
-            vars.markOpacity=jQuery("#slider").slider("value");
-            setOpacity(jQuery("#slider").slider("value"));
+            vars.markOpacity=jQuery("#slider").slider("value")*(-1);
+            setOpacity();
         }
     });
 
-    function setOpacity(value){
-        $('.watermark-img').css({'opacity' : value});
+    function setOpacity(){
+        $('.watermark-img').css({'opacity' : vars.markOpacity});
     }
 
     function watermarkType($this){
         if ($this.val()=='one') {
-            $('.active-color-horizontal-field, .active-color-vertical-field').hide();
+            $('.orientacion-field').hide();
             $('.color-block:eq(0)').addClass('active-color');
         } else {
             $('.active-color').removeClass('active-color');
-            $('.active-color-horizontal-field, .active-color-vertical-field').show();
+            $('.orientacion-field').show();
 
         }
     }
@@ -117,22 +121,33 @@ $( document ).ready(function() {
         formBlockSiblings.each(function(){
             var disableBlock="<div class='disabler__block'></div>";
             $(this).append(disableBlock);
-            $('#slider').slider({value:0})
+            $('#slider').slider({value:-1})
         });
     }
+
     function inputListeners(){
             $('.switch-container').on('click','.up, .down', function(){
                 changeValue($(this));
             });
-            var interval;
+            var TimeOutGlobal;  // ID для timeOut
+            var TimeOutInner;   // ID для timeOut
             $('.switch-container').on('mousedown','.up, .down', function(){
                 var $this=$(this);
-                interval = setInterval(function(){
-                    changeValue($this,'plus');
-                },100);
+                TimeOutGlobal = setTimeout(function(){
+                    var i=100; // регилирует таймер
+                    TimeOutInner = setTimeout(function tick() {
+                        i>=10 ? i=i-2 : '';
+                        var result = changeValue($this);
+                        if (!result) { $('.switch-container').mouseup(); } // если результат будет false значит у нас достигнуто последнее из возможных значений, поетому мы преклащаем рекурсию таймаута, делаем триггер mouseup
+                            else {
+                                TimeOutInner = setTimeout(tick, i); // иначе мы спокойно может использовать рекурсивный таймаут и дальше изменять значения полей
+                            }
+                    }, i);
+                },500);
             });
             $('.switch-container').on('mouseup','.up, .down', function(){
-                clearInterval(interval);
+                clearTimeout(TimeOutInner);
+                clearTimeout(TimeOutGlobal);
             });
 
             $('.color-block').on('click', function(){
@@ -143,6 +158,8 @@ $( document ).ready(function() {
             })
 
             $('.disabler__block').remove();
+            // триггер для того чтобы после снятия блокировки включался одиночный режим
+            $('.view[value=one]').click();
        }
 
     function fileinputListeners() {
@@ -153,11 +170,14 @@ $( document ).ready(function() {
     }
 
     function putDefaultPositions(element) {
+        $('.active-color').removeClass('active-color');
+        element.addClass('active-color');
+
         element=element.data('default');
         element=String(element);
         $('.watermark-img').css({'top':defaultPosition[element][0] ,'left':defaultPosition[element][1] });
-        $('input[name=x-coordinates]').val(defaultPosition[element][0]);
-        $('input[name=y-coordinates]').val(defaultPosition[element][1]);
+        $('input[name=x-coordinates]').val(defaultPosition[element][1]);
+        $('input[name=y-coordinates]').val(defaultPosition[element][0]);
 
     }
     function findInput(input) {
@@ -177,21 +197,22 @@ $( document ).ready(function() {
         var max;
         axis=='y' ? max=markOne.limitTop : max=markOne.limitLeft;
         axis=='y' ? axis='top' : axis='left' ;
+        var edgeValue;
         var inputValue=parseInt(input.val(),10);
-            if(validateValues(inputValue,max)) {
+            if(inputValue>=0 && inputValue<=max) {
                 if (action=='decrement') {
-                    inputValue!=0 ? inputValue-- : inputValue=inputValue;
+                    inputValue!=0 ? inputValue-- : edgeValue=true;
                     changePosition(inputValue,axis);
-                } else { inputValue!=max ? inputValue++ : inputValue=inputValue ; }
+                    } else {
+                        inputValue!=max ? inputValue++ : edgeValue=true ;
+                            }
                 input.val(inputValue);
-                    changePosition(inputValue,axis);
+                changePosition(inputValue,axis);
+                if (edgeValue==true) {return false };
+                return true;
             }
 
 
-    }
-    function validateValues(inputValue,maxValue) {
-        if(inputValue>=0 && inputValue<=maxValue)   { return true;}
-            else { console.log('не прошло'); return false;}
     }
 
     fileinputListeners();
