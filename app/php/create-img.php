@@ -22,9 +22,9 @@ $params = array(
 	"activeMode" => $_POST["activeMode"]
 );
 
-include('ac_image_class.php');
+include('simpleimage.php');
 $uploadimg_dir = "../uploadimg/";
-$opacity = $params['markOpacity']*100;
+$opacity = $params['markOpacity'];
 $markLeft = $params['markLeft'];
 $markTop = $params['markTop'];
 $view = $params['activeMode'];
@@ -32,38 +32,45 @@ $markMarginX = $params['markMarginX'];
 $markMarginY = $params['markMarginY'];
 
 // Temporary files
-$img_tmp_name = session_id().'-background-tmp';
-$mark_tmp_name = session_id().'-watermark-tmp';
+$img_tmp_name = session_id().'-background-tmp.png';
+$mark_tmp_name = session_id().'-watermark-tmp.png';
 
 // The resulting file
 $result_name = session_id().'-result.png';
 
-$img_tmp_obj = new acResizeImage('../'.$params['imgUrl']);
-$img_tmp_obj ->save($uploadimg_dir, $img_tmp_name, 'png', true);
+// load background
+$img_tmp_obj = new SimpleImage();
+$img_tmp_obj->load('../'.$params['imgUrl']);
+$img_tmp_obj->save($uploadimg_dir.$img_tmp_name, 100, 'png');
+
+// load watermark
+$mark_tmp_obj = new SimpleImage();
+$mark_tmp_obj->load('../'.$params['markUrl']);
 
 // If watermark more background, resize watermark
-$mark_tmp_obj = new acResizeImage('../'.$params['markUrl']);
 if ($params['markAbsWidth'] > $params['imgAbsWidth'] || 
 	$params['markAbsHeight'] > $params['imgAbsHeight'] ) {
 	$mark_tmp_obj->resize($params['imgAbsWidth'], $params['imgAbsHeight']);
 }
-$mark_tmp_obj ->save($uploadimg_dir, $mark_tmp_name, 'png', true);
+// Opacity
+$mark_tmp_obj->opacity($opacity);
+$mark_tmp_obj->save($uploadimg_dir.$mark_tmp_name, 100, 'png');
 
-$background_img = imagecreatefrompng($uploadimg_dir.$img_tmp_name.'.png');
-$watermark_img = imagecreatefrompng($uploadimg_dir.$mark_tmp_name.'.png');
+$background_img = createImg($uploadimg_dir.$img_tmp_name);
+$watermark_img = createImg($uploadimg_dir.$mark_tmp_name);
 
-$mark_w = imagesx($watermark_img); // Width watermark after Resize
-$mark_h = imagesy($watermark_img); // Height watermark after Resize
+$mark_w = $mark_tmp_obj->get_width(); // Width watermark after Resize
+$mark_h = $mark_tmp_obj->get_height(); // Height watermark after Resize
 
 // Display modes
 if ($view == "one") {
-	imagecopymerge($background_img, $watermark_img, $markLeft, $markTop, 0, 0, $mark_w, $mark_h, $opacity);
+	imagecopy($background_img, $watermark_img, $markLeft, $markTop, 0, 0, $mark_w, $mark_h);
 }else{
 	$left = $markLeft;
 	$top = $markTop;
 	while($top <= $params['imgAbsHeight']) {
 		while($left <= $params['imgAbsWidth']) {
-			imagecopymerge($background_img, $watermark_img, $left, $top, 0, 0, $mark_w, $mark_h, $opacity);
+			imagecopy($background_img, $watermark_img, $left, $top, 0, 0, $mark_w, $mark_h);
 			$left = $left + $mark_w + $markMarginX;
 		}
 
@@ -75,6 +82,28 @@ if ($view == "one") {
 // Upload the resulting file
 imagepng($background_img, $uploadimg_dir.$result_name);
 imagedestroy($background_img);
+
+
+// Create an image identifier
+function createImg ($image) {
+  switch (exif_imagetype($image)) {
+      case IMAGETYPE_GIF :
+          $img = imagecreatefromgif($image);
+           imagesavealpha($img, true);
+          break;
+      case IMAGETYPE_JPEG :
+          $img = imagecreatefromjpeg($image);
+           imagesavealpha($img, true);
+          break;
+      case IMAGETYPE_PNG :
+          $img = imagecreatefrompng($image);
+          imagesavealpha($img, true);
+          break;
+      default :
+          throw new InvalidArgumentException('Invalid image type');
+  }
+  return $img;
+}
 
 // Return the name of the output file
 $data = array();
