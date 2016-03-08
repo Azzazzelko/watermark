@@ -253,16 +253,15 @@ $( document ).ready(function() {
 	$('.download').on("click", function(e){
 		e.preventDefault();
         setCurrentModeParams();
-        console.log(vars);
-		// $.ajax({
-		// 	type: "POST",
-		// 	url: 'php/create-img.php',
-		// 	data: vars,
-		// 	dataType: 'json'
-		// }).done(function( data ) {
-  //           downloadResImg(data.result);
-		// 	console.log(data);
-		// });
+		$.ajax({
+			type: "POST",
+			url: 'php/create-img.php',
+			data: vars,
+			dataType: 'json'
+		}).done(function( data ) {
+            downloadResImg(data.result);
+			console.log(data);
+		});
 	});
 
     function downloadResImg(response) {
