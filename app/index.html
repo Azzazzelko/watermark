@@ -19,9 +19,9 @@
                     </h1>
                     <div class="container-img">
                         <div class="img-wrap">
-                            <img class="item-img" src="images/item-img.png" alt=""  >
+                            <img class="item-img" src="" alt=""  >
                             <!--<div class="watermark-wrap">-->
-                            <img src="images/watermark.png" alt="" class="watermark-img">
+                            <img src="" alt="" class="watermark-img">
                             <!--</div>-->
                         </div>
 
@@ -37,7 +37,7 @@
                                 Исходное изображение
                             </label>
                             <div class="fileform">
-                                <div class="fileformlabel" data-lang="fake-input">Изображение</div>
+                                <div class="fileformlabel" data-lang="fake-input" data-change="false">Изображение</div>
                                 <div class="selectbutton"></div>
                                 <input id="background" type="file" name="files" class="upload">
                                 <input type="hidden" name="background" value="">
@@ -46,7 +46,7 @@
                                 Водяной знак
                             </label>
                             <div class="fileform">
-                                <div class="fileformlabel" data-lang="fake-input">Изображение</div>
+                                <div class="fileformlabel" data-lang="fake-input" data-change="false">Изображение</div>
                                 <div class="selectbutton"></div>
                                 <input id="watermark" type="file" name="files" data-name="" class=
                                         "upload">
@@ -121,10 +121,10 @@
         </div>
         <div class="block-fixed">
             <ul class="container-languages">
-                <li class="fixed-button languages-ru">
+                <li class="fixed-button languages-ru" data-lang-url="js/lang/langRu.json">
                     РУС
                 </li>
-                <li class="fixed-button languages-eng">
+                <li class="fixed-button languages-eng" data-lang-url="js/lang/langEng.json">
                     ENG
                 </li>
             </ul>

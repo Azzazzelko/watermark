@@ -488,6 +488,10 @@ input, button{
     cursor: pointer;
 }
 
+.language_active {
+    color: #444a53;
+}
+
 .container-languages .fixed-button{
     border-top: 1px solid #a5a7ac;
 }

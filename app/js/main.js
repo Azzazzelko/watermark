@@ -97,12 +97,12 @@ $( document ).ready(function() {
     }
 
     function setCurrentModeParams(){
-        if (vars.activeMode=='one') {
-            vars.markTop= markOne.top;
-            vars.markLeft= markOne.left;
-        } else  {
-                    // после создания режима замощения допишу заполнение нужных параметров
-                }
+        // if (vars.activeMode=='one') {
+        //     vars.markTop= markOne.top;
+        //     vars.markLeft= markOne.left;
+        // } else  {
+        //             // после создания режима замощения допишу заполнение нужных параметров
+        //         }
     };
 
     function watermarkType($this){
@@ -250,9 +250,76 @@ $( document ).ready(function() {
 
     }());
 
+    //*********drag and drop**********//
+
+    var draggable = $(".watermark-img")[0];
+
+    $(draggable).on("mousedown", function(e){
+        var coords = getCoords(draggable),
+            coordsContainer = getCoords($(".img-wrap")[0]);
+        var shiftX = e.pageX - coords.left,
+            shiftY = e.pageY - coords.top;
+        
+        $(document).on("mousemove", function(e){
+          moveIt(e);
+        });
+
+        $(document).on("mouseup", function(e){
+          var $this = $(this);
+
+          $(document).off("mousemove");
+          $this.off("mouseup");
+          $(draggable).css("cursor", "pointer");
+        });
+
+        $(draggable).on("dragstart", function(e){
+          e.preventDefault();
+        });
+        
+        function getCoords(elem) {
+            var box = elem.getBoundingClientRect();
+          
+            return {
+              top: box.top + pageYOffset,
+              left: box.left + pageXOffset,
+              right: box.right + pageXOffset,
+              bottom: box.bottom + pageYOffset
+            };
+        }
+
+        function moveIt(e) { 
+          var borderLeft = e.pageX - shiftX < coordsContainer.left,
+              borderTop = e.pageY - shiftY < coordsContainer.top,
+              borderRight = e.pageX + (draggable.offsetWidth - shiftX) > coordsContainer.right,
+              borderBottom = e.pageY + (draggable.offsetHeight - shiftY) > coordsContainer.bottom,
+              inputX = $(".container-coordinates").find("[name='x-coordinates']"),
+              inputY = $(".container-coordinates").find("[name='y-coordinates']");
+
+          $(draggable).css({
+            "left" : borderLeft ? 0  
+                   : borderRight ? $(".img-wrap")[0].offsetWidth - draggable.offsetWidth 
+                   : e.pageX - coordsContainer.left - shiftX,
+            "top" : borderTop ? 0 
+                  : borderBottom ? $(".img-wrap")[0].offsetHeight - draggable.offsetHeight
+                  : e.pageY - coordsContainer.top - shiftY,
+            "cursor" : "move"
+          });
+          
+          inputX.val( parseInt($(draggable).css("left")) );
+          inputY.val( parseInt($(draggable).css("top")) );
+
+          vars.markTop = parseInt($(draggable).css("left"));
+          vars.markLeft = parseInt($(draggable).css("top"));
+        };
+        
+      });
+
+    //*****drag end...............//
+
 	$('.download').on("click", function(e){
 		e.preventDefault();
         setCurrentModeParams();
+                console.log(vars);
 		$.ajax({
 			type: "POST",
 			url: 'php/create-img.php',
@@ -271,4 +338,5 @@ $( document ).ready(function() {
     }
         window.downloadFile(href);
     };
+
 });

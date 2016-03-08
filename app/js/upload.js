@@ -26,9 +26,9 @@ $( document ).ready(function() {
     var $this = $(this),
         paht_file = $this.val().replace(/.+[\\\/]/, "");
     if (paht_file) {
-      $this.closest('.fileform').find('.fileformlabel').text(paht_file);
+      $this.closest('.fileform').find('.fileformlabel').text(paht_file).attr("data-change", "true");
     }else {
-      $this.closest('.fileform').find('.fileformlabel').text('Изображение');
+      $this.closest('.fileform').find('.fileformlabel').text('Изображение').attr("data-change", "false");
     }
   }
 
