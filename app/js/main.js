@@ -126,12 +126,13 @@ $( document ).ready(function() {
         background=background.val();
         watermark=watermark.val();
         if (background=='' || watermark=='') {
-            disableListeners();
+            if (background=='' && watermark=='') {
+                disableListeners();
+            }
             return true;
+        } else  {
+            inputListeners();
         }
-
-        inputListeners();
-
     }
     function disableListeners(){    // отключает все обработчики кроме тех которые в fileFields
         formBlockSiblings.each(function(){
