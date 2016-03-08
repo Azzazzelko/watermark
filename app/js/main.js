@@ -313,8 +313,12 @@ $( document ).ready(function() {
           inputX.val( parseInt($(draggable).css("left")) );
           inputY.val( parseInt($(draggable).css("top")) );
 
+          vars.markLeft = parseInt($(draggable).css("left"));
+          vars.markTop = parseInt($(draggable).css("top"));
+
           markOne.left = parseInt($(draggable).css("left"));
           markOne.top = parseInt($(draggable).css("top"));
+
         };
 
       });
@@ -331,7 +335,6 @@ $( document ).ready(function() {
 			dataType: 'json'
 		}).done(function( data ) {
             downloadResImg(data.result);
-			console.log(data);
 		});
 	});
 

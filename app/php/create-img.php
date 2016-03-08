@@ -1,7 +1,5 @@
 <?php
 session_start();
-
-// этими данными можно пользоваться в скрипте
 $params = array(
 	"imgUrl" => $_POST["imgUrl"],
 	"imgAbsWidth" => $_POST["imgAbsWidth"],
@@ -32,10 +30,6 @@ $markTop = $params['markTop'];
 $view = $params['activeMode'];
 $markMarginX = $params['markMarginX'];
 $markMarginY = $params['markMarginY'];
-
-if(!isset($markMarginX)){$markMarginX = 20;}
-if(!isset($markMarginY)){$markMarginY = 20;}
-if(!isset($view)){$view = "some";}
 
 // Temporary files
 $img_tmp_name = session_id().'-background-tmp';
