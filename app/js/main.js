@@ -110,7 +110,11 @@ $( document ).ready(function() {
         vars.activeMode=$this.val();
         if (vars.activeMode=='one') {
             $('.orientacion-field').hide();
-            $('.color-block:eq(0)').addClass('active-color');
+            if (vars.imgUrl!=0 && vars.markUrl!=0) { // защита от возможности появления двох активных стандартных позиций
+                $('.color-block:eq(0)').click();
+             } else {
+                $('.color-block:eq(0)').addClass('active-color');
+             }
         } else {
             $('.active-color').removeClass('active-color');
             $('.orientacion-field').show();
@@ -122,12 +126,13 @@ $( document ).ready(function() {
         background=background.val();
         watermark=watermark.val();
         if (background=='' || watermark=='') {
-            disableListeners();
+            if (background=='' && watermark=='') {
+                disableListeners();
+            }
             return true;
+        } else  {
+            inputListeners();
         }
-
-        inputListeners();
-
     }
     function disableListeners(){    // отключает все обработчики кроме тех которые в fileFields
         formBlockSiblings.each(function(){

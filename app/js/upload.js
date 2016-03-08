@@ -178,7 +178,7 @@ var ImageSetting = (function() {
       vars.markTopLimit=(vars.imgRelHeight-vars.markRelHeight);
       vars.markLeftLimit=(vars.imgRelWidth-vars.markRelWidth);
       setLimits();
-      setDefaultPosition(); console.log('установка')// установка 9-ти стандартных позиций
+      setDefaultPosition(); // установка 9-ти стандартных позиций
       $mark.removeAttr("src").attr('src', vars.markUrl+'?'+Math.random());
     }
   };

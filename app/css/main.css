@@ -285,10 +285,10 @@ input, button{
     position: absolute;
     z-index: 2;
     background: #f97e76;
+    display: none;
 }
 
 .active-color-horizontal-field{
-
     top: 50%;
     left: 0;
     width: 100%;
