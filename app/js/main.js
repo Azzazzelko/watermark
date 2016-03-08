@@ -17,9 +17,10 @@ var vars = {
 	markRelHeight: 0,
 	markTop: 0,
 	markLeft: 0,
-	markOpacity: 0,
+	markOpacity: 1,
     markTopLimit: 0,
     markLeftLimit: 0,
+    activeMode: 'one'
 };
 
 var markOne= {
@@ -95,8 +96,18 @@ $( document ).ready(function() {
         $('.watermark-img').css({'opacity' : vars.markOpacity});
     }
 
+    function setCurrentModeParams(){
+        if (vars.activeMode=='one') {
+            vars.markTop= markOne.top;
+            vars.markLeft= markOne.left;
+        } else  {
+                    // после создания режима замощения допишу заполнение нужных параметров
+                }
+    };
+
     function watermarkType($this){
-        if ($this.val()=='one') {
+        vars.activeMode=$this.val();
+        if (vars.activeMode=='one') {
             $('.orientacion-field').hide();
             $('.color-block:eq(0)').addClass('active-color');
         } else {
@@ -153,7 +164,7 @@ $( document ).ready(function() {
             $('.color-block').on('click', function(){
                 putDefaultPositions($(this));
             })
-            $('.view').on('click',function(){
+            $('.view,.view[value=one]').on('click',function(){
                 watermarkType($(this));
             })
 
@@ -175,6 +186,8 @@ $( document ).ready(function() {
 
         element=element.data('default');
         element=String(element);
+        markOne.top=defaultPosition[element][0];
+        markOne.left=defaultPosition[element][1];
         $('.watermark-img').css({'top':defaultPosition[element][0] ,'left':defaultPosition[element][1] });
         $('input[name=x-coordinates]').val(defaultPosition[element][1]);
         $('input[name=y-coordinates]').val(defaultPosition[element][0]);
@@ -187,6 +200,7 @@ $( document ).ready(function() {
 
 
     function changePosition(value,direction){
+        markOne[direction]=value;
         $('.watermark-img').css(direction,value);
     }
 
@@ -202,7 +216,6 @@ $( document ).ready(function() {
             if(inputValue>=0 && inputValue<=max) {
                 if (action=='decrement') {
                     inputValue!=0 ? inputValue-- : edgeValue=true;
-                    changePosition(inputValue,axis);
                     } else {
                         inputValue!=max ? inputValue++ : edgeValue=true ;
                             }
@@ -239,16 +252,17 @@ $( document ).ready(function() {
 
 	$('.download').on("click", function(e){
 		e.preventDefault();
-
-		$.ajax({
-			type: "POST",
-			url: 'php/create-img.php',
-			data: vars,
-			dataType: 'json'
-		}).done(function( data ) {
-            downloadResImg(data.result);
-			console.log(data);
-		});
+        setCurrentModeParams();
+        console.log(vars);
+		// $.ajax({
+		// 	type: "POST",
+		// 	url: 'php/create-img.php',
+		// 	data: vars,
+		// 	dataType: 'json'
+		// }).done(function( data ) {
+  //           downloadResImg(data.result);
+		// 	console.log(data);
+		// });
 	});
 
     function downloadResImg(response) {
