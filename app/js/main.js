@@ -352,17 +352,18 @@ $( document ).ready(function() {
     //*********drag and drop**********//
 
     //var draggable = $(".watermark-img")[0];
-    var draggable = $(".watermark-wrap")[0];
-
+    var draggable = $(".watermark-wrap")[0],
+        dragContainer = $(".img-wrap")[0];
 
     $(draggable).on("mousedown", function(e){
         var coords = getCoords(draggable),
-            coordsContainer = getCoords($(".img-wrap")[0]);
+            coordsContainer = getCoords(dragContainer);
         var shiftX = e.pageX - coords.left,
             shiftY = e.pageY - coords.top;
 
         $(document).on("mousemove", function(e){
           moveIt(e);
+          $("body").css("cursor", "move");
         });
 
         $(document).on("mouseup", function(e){
@@ -371,6 +372,7 @@ $( document ).ready(function() {
           $(document).off("mousemove");
           $this.off("mouseup");
           $(draggable).css("cursor", "pointer");
+          $("body").css("cursor", "default");
         });
 
         $(draggable).on("dragstart", function(e){
@@ -389,29 +391,52 @@ $( document ).ready(function() {
         }
 
         function moveIt(e) {
-          var borderLeft = e.pageX - shiftX < coordsContainer.left,
-              borderTop = e.pageY - shiftY < coordsContainer.top,
-              borderRight = e.pageX + (draggable.offsetWidth - shiftX) > coordsContainer.right,
-              borderBottom = e.pageY + (draggable.offsetHeight - shiftY) > coordsContainer.bottom,
-              inputX = $(".container-coordinates").find("[name='x-coordinates']"),
-              inputY = $(".container-coordinates").find("[name='y-coordinates']");
+            if ( vars.activeMode == "one" ){
+                var borderLeft = e.pageX - shiftX < coordsContainer.left,
+                    borderTop = e.pageY - shiftY < coordsContainer.top,
+                    borderRight = e.pageX + (draggable.offsetWidth - shiftX) > coordsContainer.right,
+                    borderBottom = e.pageY + (draggable.offsetHeight - shiftY) > coordsContainer.bottom;
+            }else{
+                var plusForBorderHeight = Math.round( draggable.offsetHeight/3 ),
+                    plusForBorderWidth = Math.round( draggable.offsetWidth/3 ),
+                    borderLeft = e.pageX - shiftX < coordsContainer.left - plusForBorderWidth,
+                    borderTop = e.pageY - shiftY < coordsContainer.top - plusForBorderHeight,
+                    borderRight = e.pageX + (draggable.offsetWidth - shiftX) > coordsContainer.right + plusForBorderWidth,
+                    borderBottom = e.pageY + (draggable.offsetHeight - shiftY) > coordsContainer.bottom + plusForBorderHeight;
+            }
+                       
+            var inputX = $(".container-coordinates").find("[name='x-coordinates']"),
+                inputY = $(".container-coordinates").find("[name='y-coordinates']");
 
-          $(draggable).css({
-            "left" : borderLeft ? 0
-                   : borderRight ? $(".img-wrap")[0].offsetWidth - draggable.offsetWidth
-                   : e.pageX - coordsContainer.left - shiftX,
-            "top" : borderTop ? 0
-                  : borderBottom ? $(".img-wrap")[0].offsetHeight - draggable.offsetHeight
-                  : e.pageY - coordsContainer.top - shiftY,
-            "cursor" : "move"
-          });
+        
+            if ( vars.activeMode == "one" ){
+                $(draggable).css({
+                    "left" : borderLeft ? 0
+                           : borderRight ? dragContainer.offsetWidth - draggable.offsetWidth
+                           : e.pageX - coordsContainer.left - shiftX,
+                    "top" : borderTop ? 0
+                          : borderBottom ? dragContainer.offsetHeight - draggable.offsetHeight
+                          : e.pageY - coordsContainer.top - shiftY,
+                    "cursor" : "move"
+                });
+            }else{
+                $(draggable).css({
+                    "transform" : "none",
+                    "left" : borderLeft ? -plusForBorderWidth
+                           : borderRight ? dragContainer.offsetWidth + plusForBorderWidth - draggable.offsetWidth
+                           : e.pageX - coordsContainer.left - shiftX,
+                    "top" : borderTop ? -plusForBorderHeight
+                          : borderBottom ? dragContainer.offsetHeight + plusForBorderHeight - draggable.offsetHeight 
+                          : e.pageY - coordsContainer.top - shiftY,
+                    "cursor" : "move"
+                });
+            }
 
+            inputX.val( parseInt($(draggable).css("left")) );
+            inputY.val( parseInt($(draggable).css("top")) );
 
-          inputX.val( parseInt($(draggable).css("left")) );
-          inputY.val( parseInt($(draggable).css("top")) );
-
-          markOne.left = parseInt($(draggable).css("left"));
-          markOne.top = parseInt($(draggable).css("top"));
+            markOne.left = parseInt($(draggable).css("left"));
+            markOne.top = parseInt($(draggable).css("top"));
 
         }
 
