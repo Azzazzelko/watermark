@@ -87,19 +87,28 @@ input, button{
     position: relative;
 }
 
-.watermark-img{
+.watermark-wrap{
     position: absolute;
     cursor: pointer;
     top: 0;
     left: 0;
     z-index: 2;
 }
+.watermark-img{
+    display: block;
+    float:left;
+    /*position: absolute;*/
+    /*cursor: pointer;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*z-index: 2;*/
+}
 
 .item-img{
     /*скрыл, так как размеры выщитывает js/ Никита*/
     /*width: 100%;*/
     /*height: auto; */
-    margin: 0 auto;
+    /*margin: 0 auto;*/
 }
 
 .sidebar{
@@ -583,7 +592,9 @@ input, button{
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     margin: 0 auto;
+    overflow:hidden;
 }
+
 .disabler__block {
     position: absolute;
     top: 0;

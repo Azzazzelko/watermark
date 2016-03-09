@@ -91,18 +91,20 @@ var ImageSetting = (function() {
 
 
 
-
+      $('.markClone').remove();
     if (imgType == 'background') {
       vars.imgUrl = imgUrl;
       vars.imgWrapAbsWidth = resultWidth;
       vars.imgWrapAbsHeight = resultHeight;
       vars.imgAbsWidth = resultWidth;
       vars.imgAbsHeight = resultHeight;
-      $mark.removeAttr("src").css({'width': 0, 'height': 0, 'top': 0, 'left': 0});
+      //$mark.removeAttr("src").css({'width': 0, 'height': 0, 'top': 0, 'left': 0});
+
       vars.markAbsWidth = 0;
       vars.markAbsHeight = 0;
       console.log(i++);
     } else {
+
       vars.markUrl = imgUrl;
       vars.markAbsWidth = resultWidth;
       vars.markAbsHeight = resultHeight;
@@ -151,15 +153,6 @@ var ImageSetting = (function() {
     } else {
       if ((vars.markAbsWidth*vars.imgRelCoef > Math.round(vars.imgWrapRelWidth)) || (vars.markAbsHeight*vars.imgRelCoef > Math.round(vars.imgWrapRelHeight))) {
 
-        //if (vars.markAbsWidth / vars.imgWrapRelWidth >= vars.markAbsHeight / vars.imgWrapRelHeight) {
-        //      vars.markRelWidth = vars.imgWrapRelWidth * vars.imgRelCoef;
-        //      vars.markRelHeight = Math.round(vars.imgWrapRelWidth * vars.markAbsHeight / vars.markAbsWidth * vars.imgRelCoef);
-        //
-        //} else {
-        //      vars.markRelHeight = vars.imgWrapRelHeight * vars.imgRelCoef;
-        //      vars.markRelWidth = Math.round(vars.imgWrapRelHeight * vars.markAbsWidth / vars.markAbsHeight * vars.imgRelCoef);
-        //
-        //}
         if (vars.markAbsWidth / vars.imgWrapRelWidth >= vars.markAbsHeight / vars.imgWrapRelHeight) {
               vars.markRelWidth = vars.imgWrapRelWidth;
               vars.markRelHeight = Math.round(vars.imgWrapRelWidth * vars.markAbsHeight / vars.markAbsWidth);

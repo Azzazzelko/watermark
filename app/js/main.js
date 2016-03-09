@@ -18,8 +18,15 @@ var vars = {
 	markTop: 0,
 	markLeft: 0,
 	markOpacity: 1,
+
     markTopLimit: 0,
     markLeftLimit: 0,
+
+    markMarginX: 10, // расстояния между размноженными марками
+    markMarginY: 10,
+    markWrapOffsetX:0,  // смещения блока с размноженными марками относительно блока с картинкой
+    markWrapOffsetY:0,
+
     activeMode: 'one'
 };
 
@@ -28,7 +35,7 @@ var markOne= {
     left: 0,
     limitTop:0,
     limitLeft:0
-}
+};
 var defaultPosition = {
     topL:[],
     topC:[],
@@ -39,7 +46,7 @@ var defaultPosition = {
     bottomL:[],
     bottomC:[],
     bottomR:[]
-}
+};
     function setDefaultPosition() {// 1-е значение = top, 2-е значение = left
             var centerTop=(vars.imgRelHeight/2)-(vars.markRelHeight/2);
             var centerLeft=(vars.imgRelWidth/2)-(vars.markRelWidth/2);
@@ -63,10 +70,89 @@ var defaultPosition = {
         markOne.limitTop=Math.round(vars.imgRelHeight-vars.markRelHeight);
         markOne.limitLeft=Math.round(vars.imgRelWidth-vars.markRelWidth);
     }
+
+
+
+
 var $cont = $('.container-img');
 var $imgWrap = $('.img-wrap');
 var $img = $('.item-img');
 var $mark = $('.watermark-img');
+
+
+
+function createMarkRepeatBg(){
+
+    var $markWrap = $('.watermark-wrap');
+    var $mark = $('.watermark-img');
+
+    var countX = 1 + Math.round(vars.imgRelWidth / (vars.markRelWidth + vars.markMarginX));
+    var countY = 1 + Math.round(vars.imgRelHeight / (vars.markRelHeight + vars.markMarginY));
+
+    var markWrapWidth = (countX) * (vars.markRelWidth + vars.markMarginX);
+    var markWrapHeight = ( countY) * (vars.markRelHeight + vars.markMarginY);
+
+    vars.markWrapOffsetX = Math.round((vars.imgRelWidth - markWrapWidth) / 2);
+    vars.markWrapOffsetY = Math.round((vars.imgRelHeight - markWrapHeight) / 2);
+
+    $markWrap.css({
+        'width': markWrapWidth,
+        'height': markWrapHeight,
+        'top': '50%',
+        'transform': 'translate(-50%, -50%)',
+        'left': '50%'
+    });
+
+
+    $mark.css({
+        'margin-right' : vars.markMarginX,
+        'margin-bottom' : vars.markMarginY
+    });
+    for (var i = 1, j = countX * countY; i < j; i++) {
+        var clone = $mark.clone();
+        clone.addClass('markClone');
+        $markWrap.append(clone);
+    }
+
+}
+function updateMarginsMarkRepeatBg(){
+    var $markWrap = $('.watermark-wrap');
+    
+    $($markWrap).find('img').css({
+        'margin-right' : vars.markMarginX,
+        'margin-bottom' : vars.markMarginY
+    });
+}
+function createMarkOneBg(){
+
+    var $markWrap = $('.watermark-wrap');
+    var $mark = $('.watermark-img');
+
+    var countX = 0;
+    var countY = 0;
+
+    var markWrapWidth = vars.markRelWidth;
+    var markWrapHeight = vars.markRelHeight;
+
+    vars.markWrapOffsetX = 0;
+    vars.markWrapOffsetY = 0;
+
+    $markWrap.css({
+        'width': markWrapWidth,
+        'height': markWrapHeight,
+        'top': 0,
+        'transform': 'none',
+        'left': 0
+    });
+
+    $mark.css({
+            'margin-right' : 0,
+            'margin-bottom' : 0
+        });
+    $('.markClone').remove();
+
+}
+
 
 $( document ).ready(function() {
 
@@ -93,7 +179,7 @@ $( document ).ready(function() {
     });
 
     function setOpacity(){
-        $('.watermark-img').css({'opacity' : vars.markOpacity});
+        $('.watermark-wrap').css({'opacity' : vars.markOpacity});
     }
 
     function setCurrentModeParams(){
@@ -115,9 +201,15 @@ $( document ).ready(function() {
              } else {
                 $('.color-block:eq(0)').addClass('active-color');
              }
+            createMarkOneBg();
         } else {
             $('.active-color').removeClass('active-color');
             $('.orientacion-field').show();
+
+            createMarkRepeatBg();
+
+
+
 
         }
     }
@@ -169,10 +261,11 @@ $( document ).ready(function() {
 
             $('.color-block').on('click', function(){
                 putDefaultPositions($(this));
-            })
+            });
             $('.view,.view[value=one]').on('click',function(){
+
                 watermarkType($(this));
-            })
+            });
 
             $('.disabler__block').remove();
             // триггер для того чтобы после снятия блокировки включался одиночный режим
@@ -194,7 +287,7 @@ $( document ).ready(function() {
         element=String(element);
         markOne.top=defaultPosition[element][0];
         markOne.left=defaultPosition[element][1];
-        $('.watermark-img').css({'top':defaultPosition[element][0] ,'left':defaultPosition[element][1] });
+        $('.watermark-wrap').css({'top':defaultPosition[element][0] ,'left':defaultPosition[element][1] });
         $('input[name=x-coordinates]').val(defaultPosition[element][1]);
         $('input[name=y-coordinates]').val(defaultPosition[element][0]);
 
@@ -207,7 +300,7 @@ $( document ).ready(function() {
 
     function changePosition(value,direction){
         markOne[direction]=value;
-        $('.watermark-img').css(direction,value);
+        $('.watermark-wrap').css(direction,value);
     }
 
     function changeValue($this) {
@@ -258,7 +351,9 @@ $( document ).ready(function() {
 
     //*********drag and drop**********//
 
-    var draggable = $(".watermark-img")[0];
+    //var draggable = $(".watermark-img")[0];
+    var draggable = $(".watermark-wrap")[0];
+
 
     $(draggable).on("mousedown", function(e){
         var coords = getCoords(draggable),
@@ -311,13 +406,14 @@ $( document ).ready(function() {
             "cursor" : "move"
           });
 
+
           inputX.val( parseInt($(draggable).css("left")) );
           inputY.val( parseInt($(draggable).css("top")) );
 
           markOne.left = parseInt($(draggable).css("left"));
           markOne.top = parseInt($(draggable).css("top"));
 
-        };
+        }
 
       });
 
@@ -339,8 +435,8 @@ $( document ).ready(function() {
     function downloadResImg(response) {
         var href = 'php/download-img.php?file='+response;
         window.downloadFile = function(url) {
-        window.open(url, '_self');
-    }
+            window.open(url, '_self');
+        };
         window.downloadFile(href);
     };
 
