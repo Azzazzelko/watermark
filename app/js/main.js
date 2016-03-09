@@ -396,20 +396,10 @@ $( document ).ready(function() {
                     borderTop = e.pageY - shiftY < coordsContainer.top,
                     borderRight = e.pageX + (draggable.offsetWidth - shiftX) > coordsContainer.right,
                     borderBottom = e.pageY + (draggable.offsetHeight - shiftY) > coordsContainer.bottom;
-            }else{
-                var plusForBorderHeight = Math.round( draggable.offsetHeight/3 ),
-                    plusForBorderWidth = Math.round( draggable.offsetWidth/3 ),
-                    borderLeft = e.pageX - shiftX < coordsContainer.left - plusForBorderWidth,
-                    borderTop = e.pageY - shiftY < coordsContainer.top - plusForBorderHeight,
-                    borderRight = e.pageX + (draggable.offsetWidth - shiftX) > coordsContainer.right + plusForBorderWidth,
-                    borderBottom = e.pageY + (draggable.offsetHeight - shiftY) > coordsContainer.bottom + plusForBorderHeight;
-            }
-                       
-            var inputX = $(".container-coordinates").find("[name='x-coordinates']"),
-                inputY = $(".container-coordinates").find("[name='y-coordinates']");
 
-        
-            if ( vars.activeMode == "one" ){
+                var inputX = $(".container-coordinates").find("[name='x-coordinates']"),
+                    inputY = $(".container-coordinates").find("[name='y-coordinates']");
+
                 $(draggable).css({
                     "left" : borderLeft ? 0
                            : borderRight ? dragContainer.offsetWidth - draggable.offsetWidth
@@ -419,7 +409,18 @@ $( document ).ready(function() {
                           : e.pageY - coordsContainer.top - shiftY,
                     "cursor" : "move"
                 });
+
+                inputX.val( parseInt($(draggable).css("left")) );
+                inputY.val( parseInt($(draggable).css("top")) );
+
             }else{
+                var plusForBorderHeight = Math.round( draggable.offsetHeight/3 ),
+                    plusForBorderWidth = Math.round( draggable.offsetWidth/3 ),
+                    borderLeft = e.pageX - shiftX < coordsContainer.left - plusForBorderWidth,
+                    borderTop = e.pageY - shiftY < coordsContainer.top - plusForBorderHeight,
+                    borderRight = e.pageX + (draggable.offsetWidth - shiftX) > coordsContainer.right + plusForBorderWidth,
+                    borderBottom = e.pageY + (draggable.offsetHeight - shiftY) > coordsContainer.bottom + plusForBorderHeight;
+
                 $(draggable).css({
                     "transform" : "none",
                     "left" : borderLeft ? -plusForBorderWidth
@@ -431,9 +432,6 @@ $( document ).ready(function() {
                     "cursor" : "move"
                 });
             }
-
-            inputX.val( parseInt($(draggable).css("left")) );
-            inputY.val( parseInt($(draggable).css("top")) );
 
             markOne.left = parseInt($(draggable).css("left"));
             markOne.top = parseInt($(draggable).css("top"));

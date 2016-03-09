@@ -172,6 +172,7 @@ var ImageSetting = (function() {
       vars.markLeftLimit=(vars.imgRelWidth-vars.markRelWidth);
       setLimits();
       setDefaultPosition(); // установка 9-ти стандартных позиций
+      createMarkOneBg();
       $mark.removeAttr("src").attr('src', vars.markUrl+'?'+Math.random());
     }
   };
