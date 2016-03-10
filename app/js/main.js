@@ -256,7 +256,7 @@ $( document ).ready(function() {
                 $(".container-color-block").append(disableBlock);
                 createMarkRepeatBg()
             };
-            
+
             alreadyCreate = true;
         }
     };
@@ -372,7 +372,7 @@ $( document ).ready(function() {
             if (edgeValue != true){
                 var newHorizontal = (action == "increment") ? parseInt(oldHorizontal) + 1 + "px" : parseInt(oldHorizontal) + -1 + "px";
 
-                $('.active-color-horizontal-field').css("height", newHorizontal);       
+                $('.active-color-horizontal-field').css("height", newHorizontal);
                 markMany.marginY = value;
             }else{
                 return;
@@ -382,7 +382,7 @@ $( document ).ready(function() {
             if (edgeValue != true){
                 var newVertical = (action == "increment") ? parseInt(oldVertical) + 1 + "px" : parseInt(oldVertical) + -1 + "px";
 
-                $('.active-color-vertical-field').css("width", newVertical);    
+                $('.active-color-vertical-field').css("width", newVertical);
                 markMany.marginX = value;
             }else{
                 return;
@@ -391,7 +391,7 @@ $( document ).ready(function() {
 
         $('.watermark-img').css(direction,value);
     };
-    
+
     function changeValue($this){
         var input=findInput($this);
         var axis=input.data('direction');
