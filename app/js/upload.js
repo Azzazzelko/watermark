@@ -1,24 +1,49 @@
-$( document ).ready(function() {
-(function(){
+$(document).ready(function() {
 
   init();
   attachEvents();
 
   /**
-   * Инициализация
+   * Инициализация закгрузчиков файлов
    */
   function init() {
     initFileUpload('background');
     initFileUpload('watermark');
   }
 
-  /**
-   * Инициализация закгрузчиков файлов
-   */
   function attachEvents() {
     $('.upload').on('change', onChangeFile);
   }
 
+  function showToolTip($element, toltiptext) {
+    var jsondata = $('.language_active').attr('data-lang-url');
+    
+    hideToolTip($element);
+
+    $.getJSON(jsondata, function(data){
+      $element
+        .closest('.fileform')
+        .find('.tooltipstext')
+        .text(data[toltiptext])
+        .css({"display":"block"});
+    });
+  }
+
+  function hideToolTip($element) {
+    $element
+      .closest('.fileform')
+      .find('.tooltipstext')
+      .css({"display":"none"});
+  }
+
+  function setImgValidation (imgtype, bool) {
+    if(imgtype == 'background') {
+      vars.imgValid = bool;
+    }
+    if(imgtype == 'watermark') {
+      vars.markValid = bool;
+    }
+  }
   /**
    * Выбор загружаемого файла
    */
@@ -26,9 +51,17 @@ $( document ).ready(function() {
     var $this = $(this),
         paht_file = $this.val().replace(/.+[\\\/]/, "");
     if (paht_file) {
-      $this.closest('.fileform').find('.fileformlabel').text(paht_file).attr("data-change", "true");
+      $this
+        .closest('.fileform')
+        .find('.fileformlabel')
+        .text(paht_file)
+        .attr("data-change", "true");
     }else {
-      $this.closest('.fileform').find('.fileformlabel').text('Изображение').attr("data-change", "false");
+      $this
+        .closest('.fileform')
+        .find('.fileformlabel')
+        .text('Изображение')
+        .attr("data-change", "false");
     }
   }
 
@@ -47,70 +80,51 @@ $( document ).ready(function() {
           var jsondata,
               $this = $(this);
               $.cookie("imgtype", imgtype);
+              showToolTip($this, 'uferror5');
 
               data.submit()
               .success(function (result, textStatus, jqXHR) {
                 if (result.status === 'server_error') {
-
-                  //addToolTip($this, result.text_status);
-                  console.log(result.text_status);
-
-
+                  showToolTip($this, result.text_status);
+                  setImgValidation(imgtype, false);
                 } else {
-                  //delToolTip($this);
-                  //$("input[type='hidden'][name="+imgtype+"]").val(result.text_status);
-
-                  ImageSetting.init(result, imgtype);
-
-
+                  hideToolTip($this);
+                  setImgValidation(imgtype, true);
+                  getSizes(result, imgtype);
                 }
-            })
-            .error(function (jqXHR, textStatus, errorThrown) {
-              //addToolTip($this,'Ошибка загрузки файла');
-              console.log('Ошибка загрузки файла');
-            });
-          },
-
-          progress: function(e, data){
-            //addToolTip($(this),'Загрузка файла, подождите....');
-            console.log('Загрузка файла, подождите....');
-          }
+              })
+              .error(function (jqXHR, textStatus, errorThrown) {
+                showToolTip($this, result.text_status);
+                setImgValidation(imgtype, false);
+              });
+            }
         })
       }
     }
-})();
-var i=0;
-var ImageSetting = (function() {
-  var _getSizes = function(result, imgType) {
 
-    var
+    function getSizes(result, imgType) {
+      var
         imgName = result.text_status,
         imgUrl = 'uploadimg/' + imgName,
         resultWidth = result.data_width,
         resultHeight = result.data_height;
 
+        $('.markClone').remove();
 
+        if (imgType == 'background') {
+          vars.imgUrl = imgUrl;
+          vars.imgWrapAbsWidth = resultWidth;
+          vars.imgWrapAbsHeight = resultHeight;
+          vars.imgAbsWidth = resultWidth;
+          vars.imgAbsHeight = resultHeight;
 
-      $('.markClone').remove();
-    if (imgType == 'background') {
-      vars.imgUrl = imgUrl;
-      vars.imgWrapAbsWidth = resultWidth;
-      vars.imgWrapAbsHeight = resultHeight;
-      vars.imgAbsWidth = resultWidth;
-      vars.imgAbsHeight = resultHeight;
-      //$mark.removeAttr("src").css({'width': 0, 'height': 0, 'top': 0, 'left': 0});
-
-      vars.markAbsWidth = 0;
-      vars.markAbsHeight = 0;
-      console.log(i++);
-    } else {
-
-      vars.markUrl = imgUrl;
-      vars.markAbsWidth = resultWidth;
-      vars.markAbsHeight = resultHeight;
-    }
-
-
+          vars.markAbsWidth = 0;
+          vars.markAbsHeight = 0;
+        } else {
+          vars.markUrl = imgUrl;
+          vars.markAbsWidth = resultWidth;
+          vars.markAbsHeight = resultHeight;
+        }
 
     if (imgType == 'background') {
       if ((vars.imgAbsWidth > vars.contWidth) || (vars.imgAbsHeight >vars.contHeight)) {
@@ -125,8 +139,6 @@ var ImageSetting = (function() {
               vars.imgWrapRelHeight = vars.imgRelHeight;
 
               vars.imgRelCoef = vars.imgRelHeight /  vars.imgAbsHeight;
-
-
 
         } else {
               vars.imgRelWidth = Math.round(vars.contHeight * vars.imgAbsWidth / vars.imgAbsHeight);
@@ -175,15 +187,5 @@ var ImageSetting = (function() {
       createMarkOneBg();
       $mark.removeAttr("src").attr('src', vars.markUrl+'?'+Math.random());
     }
-  };
-
-
-  return {
-    init:function(result, imgType) {
-        _getSizes(result, imgType);
-
-    }
   }
-}());
-
 });

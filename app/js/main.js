@@ -10,6 +10,7 @@ var vars = {
     imgRelCoef: 0, // rel/abs  (0..1)
 	imgTop: 0,
 	imgLeft: 0,
+    imgValid: false,
 	markUrl : 0,
 	markAbsWidth: 0,
 	markAbsHeight: 0,
@@ -26,6 +27,7 @@ var vars = {
     markMarginY: 10,
     markWrapOffsetX:0,  // смещения блока с размноженными марками относительно блока с картинкой
     markWrapOffsetY:0,
+    markValid: false,
 
     activeMode: 'one'
 };

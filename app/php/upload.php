@@ -16,13 +16,13 @@ if(isset($_FILES['files']) && $_FILES['files']['error'] == 0){
 		$extension = strtolower(pathinfo($project_file['name'], PATHINFO_EXTENSION));
 		$allowed = array('png', 'jpeg', 'jpg', 'gif');
 		if(!in_array(strtolower($extension), $allowed)){
-			echo '{"status":"server_error", "text_status":"Ваш файл не является изображением"}';
+			echo '{"status":"server_error", "text_status":"uferror4"}';
 			return;
 		}
 
 		// Проверка размера файла
 		if ($project_file["size"] > 1024*1024*5 ) {
-			echo '{"status":"server_error", "text_status":"Ваш файл слишком большой (более 5Mb)"}';
+			echo '{"status":"server_error", "text_status":"uferror3"}';
 			return;
 		}
 
@@ -42,14 +42,14 @@ if(isset($_FILES['files']) && $_FILES['files']['error'] == 0){
 				}';
 			return;
 		} else {
-			echo '{"status":"server_error", "text_status":"Ошибка загрузки файла"}';
+			echo '{"status":"server_error", "text_status":"uferror2"}';
 			return;
 		}
 
 	} else {
-		echo '{"status":"server_error", "text_status":"Ошибка загрузки файла"}';
+		echo '{"status":"server_error", "text_status":"uferror2"}';
 		return;
 	}
 }
-echo '{"status":"server_error", "text_status":"Файла нет"}';
+echo '{"status":"server_error", "text_status":"uferror1"}';
 return;
