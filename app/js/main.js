@@ -22,8 +22,8 @@ var vars = {
     markTopLimit: 0,
     markLeftLimit: 0,
 
-    markMarginX: 10, // расстояния между размноженными марками
-    markMarginY: 10,
+    markMarginX: 0, // расстояния между размноженными марками
+    markMarginY: 0,
     markWrapOffsetX:0,  // смещения блока с размноженными марками относительно блока с картинкой
     markWrapOffsetY:0,
 
@@ -36,6 +36,16 @@ var markOne= {
     limitTop:0,
     limitLeft:0
 };
+
+var markMany = {
+    limitX : 100,
+    limitY : 100,
+    marginX : 10,
+    marginY : 10,
+    top : 0,
+    left : 0
+};
+
 var defaultPosition = {
     topL:[],
     topC:[],
@@ -105,8 +115,8 @@ function createMarkRepeatBg(){
 
 
     $mark.css({
-        'margin-right' : vars.markMarginX,
-        'margin-bottom' : vars.markMarginY
+        'margin-right' : markMany.marginX,
+        'margin-bottom' : markMany.marginY
     });
     for (var i = 1, j = countX * countY; i < j; i++) {
         var clone = $mark.clone();
@@ -140,9 +150,9 @@ function createMarkOneBg(){
     $markWrap.css({
         'width': markWrapWidth,
         'height': markWrapHeight,
-        'top': 0,
+        'top': markOne.top,
         'transform': 'none',
-        'left': 0
+        'left': markOne.left
     });
 
     $mark.css({
@@ -194,6 +204,9 @@ $( document ).ready(function() {
 
     function watermarkType($this){
         vars.activeMode=$this.val();
+        var inputX = $(".container-coordinates").find("[name='x-coordinates']"),
+            inputY = $(".container-coordinates").find("[name='y-coordinates']");
+
         if (vars.activeMode=='one') {
             $('.orientacion-field').hide();
             if (vars.imgUrl!=0 && vars.markUrl!=0) { // защита от возможности появления двох активных стандартных позиций
@@ -206,11 +219,10 @@ $( document ).ready(function() {
             $('.active-color').removeClass('active-color');
             $('.orientacion-field').show();
 
+            inputX.val( parseInt(markMany.marginX) );
+            inputY.val( parseInt(markMany.marginY) );
+
             createMarkRepeatBg();
-
-
-
-
         }
     }
 
@@ -262,6 +274,7 @@ $( document ).ready(function() {
             $('.color-block').on('click', function(){
                 putDefaultPositions($(this));
             });
+
             $('.view,.view[value=one]').on('click',function(){
 
                 watermarkType($(this));
@@ -303,13 +316,29 @@ $( document ).ready(function() {
         $('.watermark-wrap').css(direction,value);
     }
 
+    function changeMargin(value, direction){
+        if (direction == "margin-bottom"){
+            markMany.marginY = value;
+        }else{
+            markMany.marginX = value;
+        };
+        console.log(direction);
+        $('.watermark-img').css(direction,value);
+    }
+
     function changeValue($this) {
         var input=findInput($this);
         var axis=input.data('direction');
         var action=$this.data('action');
         var max;
-        axis=='y' ? max=markOne.limitTop : max=markOne.limitLeft;
-        axis=='y' ? axis='top' : axis='left' ;
+        var justDoIt;
+        if (vars.activeMode=='one'){
+            axis=='y' ? max=markOne.limitTop : max=markOne.limitLeft;
+            axis=='y' ? axis='top' : axis='left';
+        }else{
+            axis=='y' ? max=markMany.limitY : max=markMany.limitX;
+            axis=='y' ? axis='margin-bottom' : axis='margin-right';
+        }
         var edgeValue;
         var inputValue=parseInt(input.val(),10);
             if(inputValue>=0 && inputValue<=max) {
@@ -319,7 +348,7 @@ $( document ).ready(function() {
                         inputValue!=max ? inputValue++ : edgeValue=true ;
                             }
                 input.val(inputValue);
-                changePosition(inputValue,axis);
+                justDoIt = (vars.activeMode=='one') ? changePosition(inputValue,axis) : changeMargin(inputValue,axis);
                 if (edgeValue==true) {return false };
                 return true;
             }
