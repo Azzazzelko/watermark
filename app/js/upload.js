@@ -89,20 +89,18 @@ var ImageSetting = (function() {
         resultWidth = result.data_width,
         resultHeight = result.data_height;
 
-
-
-      $('.markClone').remove();
+    $('.markClone').remove();
+    
     if (imgType == 'background') {
       vars.imgUrl = imgUrl;
       vars.imgWrapAbsWidth = resultWidth;
       vars.imgWrapAbsHeight = resultHeight;
       vars.imgAbsWidth = resultWidth;
       vars.imgAbsHeight = resultHeight;
-      //$mark.removeAttr("src").css({'width': 0, 'height': 0, 'top': 0, 'left': 0});
 
       vars.markAbsWidth = 0;
       vars.markAbsHeight = 0;
-      console.log(i++);
+
     } else {
 
       vars.markUrl = imgUrl;
@@ -110,11 +108,8 @@ var ImageSetting = (function() {
       vars.markAbsHeight = resultHeight;
     }
 
-
-
     if (imgType == 'background') {
       if ((vars.imgAbsWidth > vars.contWidth) || (vars.imgAbsHeight >vars.contHeight)) {
-
 
         if (vars.imgAbsWidth / vars.contWidth >= vars.imgAbsHeight / vars.contHeight) {
 
@@ -125,8 +120,6 @@ var ImageSetting = (function() {
               vars.imgWrapRelHeight = vars.imgRelHeight;
 
               vars.imgRelCoef = vars.imgRelHeight /  vars.imgAbsHeight;
-
-
 
         } else {
               vars.imgRelWidth = Math.round(vars.contHeight * vars.imgAbsWidth / vars.imgAbsHeight);
@@ -172,6 +165,7 @@ var ImageSetting = (function() {
       vars.markLeftLimit=(vars.imgRelWidth-vars.markRelWidth);
       setLimits();
       setDefaultPosition(); // установка 9-ти стандартных позиций
+      resetAllSettings(); // чтоб новая картинка становилась в стандартную позицию
       createMarkOneBg();
       $mark.removeAttr("src").attr('src', vars.markUrl+'?'+Math.random());
     }
