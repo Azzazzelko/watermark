@@ -1,6 +1,6 @@
 <?php
 session_start();
-ini_set("memory_limit", "256M");
+ini_set("memory_limit", "512M");
 $params = array(
 	"imgUrl" => $_POST["imgUrl"],
 	"imgAbsWidth" => $_POST["imgAbsWidth"],
@@ -11,8 +11,6 @@ $params = array(
 	"markTop" => $_POST["markTop"],
 	"markLeft" => $_POST["markLeft"],
 	"markOpacity" => $_POST["markOpacity"],
-	"markRelWidth" => $_POST["markRelWidth"],
-	"markRelHeight" => $_POST["markRelHeight"],
 	"markMarginX" => $_POST["markMarginX"],
 	"markMarginY" => $_POST["markMarginY"],
 	"markWrapOffsetX" => $_POST["markWrapOffsetX"],
@@ -28,6 +26,8 @@ $markTop = $params['markTop'];
 $view = $params['activeMode'];
 $markMarginX = $params['markMarginX'];
 $markMarginY = $params['markMarginY'];
+$markWrapOffsetX = $params["markWrapOffsetX"];
+$markWrapOffsetY = $params["markWrapOffsetY"];
 
 // Temporary files watermark
 $mark_tmp_name = session_id().'-watermark-tmp.png';
@@ -39,10 +39,14 @@ $result_name = session_id().'-result.png';
 $mark_tmp_obj = new SimpleImage('../'.$params['markUrl']);
 
 // If watermark more background, resize watermark
-if ($params['markAbsWidth'] > $params['imgAbsWidth'] || 
-	$params['markAbsHeight'] > $params['imgAbsHeight'] ) {
-	$mark_tmp_obj->resize($params["markRelWidth"], $params["markRelHeight"]);
+if ($params['markAbsWidth'] > $params['imgAbsWidth']  ) {
+	$mark_tmp_obj->fit_to_width($params['imgAbsWidth']);
 }
+
+if ($params['markAbsHeight'] > $params['imgAbsHeight'] ) {
+	$mark_tmp_obj->fit_to_height($params['imgAbsHeight']);
+}
+
 // Save watermark with transparency
 $mark_tmp_obj->opacity($opacity);
 $mark_tmp_obj->save($uploadimg_dir.$mark_tmp_name, 100, 'png');
@@ -57,15 +61,16 @@ $mark_h = $mark_tmp_obj->get_height(); // Height watermark after Resize
 if ($view == "one") {
 	imagecopy($background_img, $watermark_img, $markLeft, $markTop, 0, 0, $mark_w, $mark_h);
 }else{
-	$left = $params["markWrapOffsetX"];
-	$top = $params["markWrapOffsetY"];
+
+	$left = $markWrapOffsetX;
+	$top = $markWrapOffsetY;
 	while($top <= $params['imgAbsHeight']) {
 		while($left <= $params['imgAbsWidth']) {
 			imagecopy($background_img, $watermark_img, $left, $top, 0, 0, $mark_w, $mark_h);
 			$left = $left + $mark_w + $markMarginX;
 		}
 
-		$left = $params["markWrapOffsetX"];
+		$left = $markWrapOffsetX;
 		$top = $top + $mark_h + $markMarginY;
 	}
 }

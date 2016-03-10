@@ -25,8 +25,8 @@ var vars = {
 
     markMarginX: 10, // расстояния между размноженными марками
     markMarginY: 10,
-    markWrapOffsetX:0,  // смещения блока с размноженными марками относительно блока с картинкой
-    markWrapOffsetY:0,
+    markWrapOffsetX: 0,  // смещения блока с размноженными марками относительно блока с картинкой
+    markWrapOffsetY: 0,
     markValid: false,
 
     activeMode: 'one'
