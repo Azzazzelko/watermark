@@ -85,4 +85,4 @@ When the second mode is selected:
 | Victoria Kravchenko | [Bitlomanka](https://github.com/bitlomanka) | Frontend |
 | Nikita Semenov | [Skttr](https://github.com/skttr) | JS |
 | Sasha Saulyak | [Xeonalex](https://github.com/xeonalex) | JS |
-| Andrei Mashkov | [Andmegam](https://github.com/andmegam) | PHP |
+| Andrey Mashkov | [Andmegam](https://github.com/andmegam) | PHP |

@@ -166,11 +166,10 @@ input, button{
 }
 
 .fileform{
-    cursor: pointer;
-    overflow: hidden;
     position: relative;
+    cursor: pointer;
     color: #9eb2c0;
-    margin-bottom: 25px;
+    margin-bottom: 55px;
 }
 
 .selectbutton {
@@ -194,7 +193,7 @@ input, button{
     opacity: 0;
     z-index:20;
     padding: 0;
-    font-size: 200px;
+    font-size: 20px;
 }
 
 .fileform .fileformlabel {
@@ -604,4 +603,38 @@ input, button{
     background: #f1f1f5;
     opacity: 0.5;
     z-index: 9999;
+}
+
+
+.tooltipstext {
+  position: absolute;
+  display: none;
+  top: 0px;
+  width:auto;
+  white-space: nowrap;
+  color: #FFFFFF;
+  font-size: 13px;
+  background: #F97E76;
+  height: 25px;
+  line-height: 25px;
+  padding: 0px 5px;
+  text-align: center;
+  border-radius: 3px;
+  z-index: 9999;
+}
+.posleft {
+  right: 100%;
+  margin: 0px 5px 0px 0px;
+}
+
+.posleft:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-top: -5px;
+  width: 0; height: 0;
+  border-left: 5px solid #F97E76;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
 }
