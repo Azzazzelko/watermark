@@ -107,11 +107,11 @@ var WaterMarkModule = (function(){
 		var $markWrap = $('.watermark-wrap');
 		var $mark = $('.watermark-img');
 
-		var countX = 1 + Math.ceil(vars.imgRelWidth / (vars.markRelWidth + vars.markMarginX));
-		var countY = 1 + Math.ceil(vars.imgRelHeight / (vars.markRelHeight + vars.markMarginY));
+		var countX = 1 + Math.ceil(vars.imgRelWidth / (vars.markRelWidth + vars.markMarginX))*2;
+		var countY = 1 + Math.ceil(vars.imgRelHeight / (vars.markRelHeight + vars.markMarginY))*2;
 
-		var markWrapWidth = (countX) * (vars.markRelWidth + markMany.marginX) + 25;
-		var markWrapHeight = (countY) * (vars.markRelHeight + markMany.marginY) + 25;
+		var markWrapWidth = (countX) * (vars.markRelWidth + markMany.marginX);
+		var markWrapHeight = (countY) * (vars.markRelHeight + markMany.marginY);
 
 		markMany.countY = countY;
 		markMany.countX = countX;
@@ -120,7 +120,7 @@ var WaterMarkModule = (function(){
 			'width': markWrapWidth,
 			'height': markWrapHeight,
 			'top': (markMany.top == 0) ? markMany.top - (markWrapHeight/3) : markMany.top,     //чтоб новая становилась в нужную позицию, а старая сохранялась нормально при переключении. Значение зависит от границ дропа
-			'left': (markMany.left == 0) ? markMany.left - Math.round( (markWrapWidth/3)/1.5 ) : markMany.left
+			'left': (markMany.left == 0) ? markMany.left - (markWrapWidth/3) : markMany.left
 		});
 
 
@@ -504,16 +504,16 @@ var WaterMarkModule = (function(){
 					markOne.top = parseInt($(draggable).css("top"));
 
 				}else{
-					var plusForBorderHeight = Math.round( draggable.offsetHeight/3 ),
-						plusForBorderWidth = Math.round( draggable.offsetWidth/3 ),
-						borderLeft = e.pageX - shiftX < Math.round( coordsContainer.left - plusForBorderWidth/1.5 ),
-						borderTop = e.pageY - shiftY < coordsContainer.top - plusForBorderHeight,
-						borderRight = e.pageX + (draggable.offsetWidth - shiftX) > coordsContainer.right + plusForBorderWidth,
-						borderBottom = e.pageY + (draggable.offsetHeight - shiftY) > coordsContainer.bottom + plusForBorderHeight;
+					var plusForBorderHeight = Math.round( draggable.offsetHeight/2 ),
+	                    plusForBorderWidth = Math.round( draggable.offsetWidth/2 ), 
+	                    borderLeft = e.pageX - shiftX < coordsContainer.left - plusForBorderWidth,
+	                    borderTop = e.pageY - shiftY < coordsContainer.top - plusForBorderHeight,
+	                    borderRight = e.pageX + (draggable.offsetWidth - shiftX) > coordsContainer.right + plusForBorderWidth,
+	                    borderBottom = e.pageY + (draggable.offsetHeight - shiftY) > coordsContainer.bottom + plusForBorderHeight;
 
 					$(draggable).css({
 						"transform" : "none",
-						"left" : borderLeft ? Math.round(-plusForBorderWidth/1.5)
+						"left" : borderLeft ? -plusForBorderWidth
 							   : borderRight ? dragContainer.offsetWidth + plusForBorderWidth - draggable.offsetWidth
 							   : e.pageX - coordsContainer.left - shiftX,
 						"top" : borderTop ? -plusForBorderHeight

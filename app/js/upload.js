@@ -161,7 +161,7 @@ $(document).ready(function() {
       }
       WaterMarkModule.variables.img.removeAttr("src").attr('src', WaterMarkModule.variables.vars.imgUrl+'?'+Math.random()).attr('width', WaterMarkModule.variables.vars.imgRelWidth).attr('height', WaterMarkModule.variables.vars.imgRelHeight);
       WaterMarkModule.variables.imgWrap.css({'width': WaterMarkModule.variables.vars.imgWrapRelWidth, 'height': WaterMarkModule.variables.vars.imgWrapRelHeight});
-
+           
     } else {
       if ((WaterMarkModule.variables.vars.markAbsWidth*WaterMarkModule.variables.vars.imgRelCoef > Math.round(WaterMarkModule.variables.vars.imgWrapRelWidth)) || (WaterMarkModule.variables.vars.markAbsHeight*WaterMarkModule.variables.vars.imgRelCoef > Math.round(WaterMarkModule.variables.vars.imgWrapRelHeight))) {
 
