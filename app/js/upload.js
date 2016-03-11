@@ -38,11 +38,12 @@ $(document).ready(function() {
 
   function setImgValidation (imgtype, bool) {
     if(imgtype == 'background') {
-      vars.imgValid = bool;
+      WaterMarkModule.variables.vars.imgValid = bool;
     }
     if(imgtype == 'watermark') {
-      vars.markValid = bool;
+      WaterMarkModule.variables.vars.markValid = bool;
     }
+    WaterMarkModule.emptyFileField();
   }
   /**
    * Выбор загружаемого файла
@@ -112,80 +113,80 @@ $(document).ready(function() {
         $('.markClone').remove();
 
         if (imgType == 'background') {
-          vars.imgUrl = imgUrl;
-          vars.imgWrapAbsWidth = resultWidth;
-          vars.imgWrapAbsHeight = resultHeight;
-          vars.imgAbsWidth = resultWidth;
-          vars.imgAbsHeight = resultHeight;
+          WaterMarkModule.variables.vars.imgUrl = imgUrl;
+          WaterMarkModule.variables.vars.imgWrapAbsWidth = resultWidth;
+          WaterMarkModule.variables.vars.imgWrapAbsHeight = resultHeight;
+          WaterMarkModule.variables.vars.imgAbsWidth = resultWidth;
+          WaterMarkModule.variables.vars.imgAbsHeight = resultHeight;
 
-          vars.markAbsWidth = 0;
-          vars.markAbsHeight = 0;
+          WaterMarkModule.variables.vars.markAbsWidth = 0;
+          WaterMarkModule.variables.vars.markAbsHeight = 0;
         } else {
-          vars.markUrl = imgUrl;
-          vars.markAbsWidth = resultWidth;
-          vars.markAbsHeight = resultHeight;
+          WaterMarkModule.variables.vars.markUrl = imgUrl;
+          WaterMarkModule.variables.vars.markAbsWidth = resultWidth;
+          WaterMarkModule.variables.vars.markAbsHeight = resultHeight;
         }
 
     if (imgType == 'background') {
-      if ((vars.imgAbsWidth > vars.contWidth) || (vars.imgAbsHeight >vars.contHeight)) {
+      if ((WaterMarkModule.variables.vars.imgAbsWidth > WaterMarkModule.variables.vars.contWidth) || (WaterMarkModule.variables.vars.imgAbsHeight >WaterMarkModule.variables.vars.contHeight)) {
 
-        if (vars.imgAbsWidth / vars.contWidth >= vars.imgAbsHeight / vars.contHeight) {
+        if (WaterMarkModule.variables.vars.imgAbsWidth / WaterMarkModule.variables.vars.contWidth >= WaterMarkModule.variables.vars.imgAbsHeight / WaterMarkModule.variables.vars.contHeight) {
 
-              vars.imgRelWidth = vars.contWidth;
-              vars.imgRelHeight = Math.round(vars.contWidth * vars.imgAbsHeight / vars.imgAbsWidth);
+              WaterMarkModule.variables.vars.imgRelWidth = WaterMarkModule.variables.vars.contWidth;
+              WaterMarkModule.variables.vars.imgRelHeight = Math.round(WaterMarkModule.variables.vars.contWidth * WaterMarkModule.variables.vars.imgAbsHeight / WaterMarkModule.variables.vars.imgAbsWidth);
 
-              vars.imgWrapRelWidth = vars.imgRelWidth;
-              vars.imgWrapRelHeight = vars.imgRelHeight;
+              WaterMarkModule.variables.vars.imgWrapRelWidth = WaterMarkModule.variables.vars.imgRelWidth;
+              WaterMarkModule.variables.vars.imgWrapRelHeight = WaterMarkModule.variables.vars.imgRelHeight;
 
-              vars.imgRelCoef = vars.imgRelHeight /  vars.imgAbsHeight;
+              WaterMarkModule.variables.vars.imgRelCoef = WaterMarkModule.variables.vars.imgRelHeight /  WaterMarkModule.variables.vars.imgAbsHeight;
 
         } else {
-              vars.imgRelWidth = Math.round(vars.contHeight * vars.imgAbsWidth / vars.imgAbsHeight);
-              vars.imgRelHeight = vars.contHeight;
+              WaterMarkModule.variables.vars.imgRelWidth = Math.round(WaterMarkModule.variables.vars.contHeight * WaterMarkModule.variables.vars.imgAbsWidth / WaterMarkModule.variables.vars.imgAbsHeight);
+              WaterMarkModule.variables.vars.imgRelHeight = WaterMarkModule.variables.vars.contHeight;
 
-              vars.imgWrapRelWidth = vars.imgRelWidth;
-              vars.imgWrapRelHeight = vars.imgRelHeight;
+              WaterMarkModule.variables.vars.imgWrapRelWidth = WaterMarkModule.variables.vars.imgRelWidth;
+              WaterMarkModule.variables.vars.imgWrapRelHeight = WaterMarkModule.variables.vars.imgRelHeight;
 
-              vars.imgRelCoef = vars.imgRelWidth /  vars.imgAbsWidth;
+              WaterMarkModule.variables.vars.imgRelCoef = WaterMarkModule.variables.vars.imgRelWidth /  WaterMarkModule.variables.vars.imgAbsWidth;
         }
       } else {
-            vars.imgRelWidth = vars.imgAbsWidth;
-            vars.imgRelHeight = vars.imgAbsHeight;
+            WaterMarkModule.variables.vars.imgRelWidth = WaterMarkModule.variables.vars.imgAbsWidth;
+            WaterMarkModule.variables.vars.imgRelHeight = WaterMarkModule.variables.vars.imgAbsHeight;
 
-            vars.imgWrapRelWidth = vars.imgRelWidth;
-            vars.imgWrapRelHeight = vars.imgRelHeight;
+            WaterMarkModule.variables.vars.imgWrapRelWidth = WaterMarkModule.variables.vars.imgRelWidth;
+            WaterMarkModule.variables.vars.imgWrapRelHeight = WaterMarkModule.variables.vars.imgRelHeight;
 
-            vars.imgRelCoef = 1;
+            WaterMarkModule.variables.vars.imgRelCoef = 1;
 
       }
-      $img.removeAttr("src").attr('src', vars.imgUrl+'?'+Math.random()).attr('width', vars.imgRelWidth).attr('height', vars.imgRelHeight);
-      $imgWrap.css({'width': vars.imgWrapRelWidth, 'height': vars.imgWrapRelHeight});
+      WaterMarkModule.variables.img.removeAttr("src").attr('src', WaterMarkModule.variables.vars.imgUrl+'?'+Math.random()).attr('width', WaterMarkModule.variables.vars.imgRelWidth).attr('height', WaterMarkModule.variables.vars.imgRelHeight);
+      WaterMarkModule.variables.imgWrap.css({'width': WaterMarkModule.variables.vars.imgWrapRelWidth, 'height': WaterMarkModule.variables.vars.imgWrapRelHeight});
 
     } else {
-      if ((vars.markAbsWidth*vars.imgRelCoef > Math.round(vars.imgWrapRelWidth)) || (vars.markAbsHeight*vars.imgRelCoef > Math.round(vars.imgWrapRelHeight))) {
+      if ((WaterMarkModule.variables.vars.markAbsWidth*WaterMarkModule.variables.vars.imgRelCoef > Math.round(WaterMarkModule.variables.vars.imgWrapRelWidth)) || (WaterMarkModule.variables.vars.markAbsHeight*WaterMarkModule.variables.vars.imgRelCoef > Math.round(WaterMarkModule.variables.vars.imgWrapRelHeight))) {
 
-        if (vars.markAbsWidth / vars.imgWrapRelWidth >= vars.markAbsHeight / vars.imgWrapRelHeight) {
-              vars.markRelWidth = vars.imgWrapRelWidth;
-              vars.markRelHeight = Math.round(vars.imgWrapRelWidth * vars.markAbsHeight / vars.markAbsWidth);
+        if (WaterMarkModule.variables.vars.markAbsWidth / WaterMarkModule.variables.vars.imgWrapRelWidth >= WaterMarkModule.variables.vars.markAbsHeight / WaterMarkModule.variables.vars.imgWrapRelHeight) {
+              WaterMarkModule.variables.vars.markRelWidth = WaterMarkModule.variables.vars.imgWrapRelWidth;
+              WaterMarkModule.variables.vars.markRelHeight = Math.round(WaterMarkModule.variables.vars.imgWrapRelWidth * WaterMarkModule.variables.vars.markAbsHeight / WaterMarkModule.variables.vars.markAbsWidth);
 
         } else {
-              vars.markRelHeight = vars.imgWrapRelHeight;
-              vars.markRelWidth = Math.round(vars.imgWrapRelHeight * vars.markAbsWidth / vars.markAbsHeight);
+              WaterMarkModule.variables.vars.markRelHeight = WaterMarkModule.variables.vars.imgWrapRelHeight;
+              WaterMarkModule.variables.vars.markRelWidth = Math.round(WaterMarkModule.variables.vars.imgWrapRelHeight * WaterMarkModule.variables.vars.markAbsWidth / WaterMarkModule.variables.vars.markAbsHeight);
 
         }
       } else {
-            vars.markRelWidth = vars.markAbsWidth * vars.imgRelCoef;
-            vars.markRelHeight = vars.markAbsHeight * vars.imgRelCoef;
+            WaterMarkModule.variables.vars.markRelWidth = WaterMarkModule.variables.vars.markAbsWidth * WaterMarkModule.variables.vars.imgRelCoef;
+            WaterMarkModule.variables.vars.markRelHeight = WaterMarkModule.variables.vars.markAbsHeight * WaterMarkModule.variables.vars.imgRelCoef;
       }
-      $mark.css({'width': vars.markRelWidth, 'height': vars.markRelHeight, 'top': vars.markTop, 'left': vars.markLeft});
-      $mark.attr('src', vars.markUrl);
-      vars.markTopLimit=(vars.imgRelHeight-vars.markRelHeight);
-      vars.markLeftLimit=(vars.imgRelWidth-vars.markRelWidth);
-      setLimits();
-      setDefaultPosition(); // установка 9-ти стандартных позиций
-      resetAllSettings(); // чтоб новая картинка становилась в стандартную позицию
-      createMarkOneBg();
-      $mark.removeAttr("src").attr('src', vars.markUrl+'?'+Math.random());
+      WaterMarkModule.variables.mark.css({'width': WaterMarkModule.variables.vars.markRelWidth, 'height': WaterMarkModule.variables.vars.markRelHeight, 'top': WaterMarkModule.variables.vars.markTop, 'left': WaterMarkModule.variables.vars.markLeft});
+      WaterMarkModule.variables.mark.attr('src', WaterMarkModule.variables.vars.markUrl);
+      WaterMarkModule.variables.vars.markTopLimit=(WaterMarkModule.variables.vars.imgRelHeight-WaterMarkModule.variables.vars.markRelHeight);
+      WaterMarkModule.variables.vars.markLeftLimit=(WaterMarkModule.variables.vars.imgRelWidth-WaterMarkModule.variables.vars.markRelWidth);
+      WaterMarkModule.setLimits();
+      WaterMarkModule.setDefaultPosition(); // установка 9-ти стандартных позиций
+      WaterMarkModule.resetAllSettings(); // чтоб новая картинка становилась в стандартную позицию
+      WaterMarkModule.createMarkOneBg();
+      WaterMarkModule.variables.mark.removeAttr("src").attr('src', WaterMarkModule.variables.vars.markUrl+'?'+Math.random());
     }
   }
 });
