@@ -75,6 +75,7 @@ var WaterMarkModule = (function(){
 	var formBlock=watermarkInput.closest('.container-form');
 	var formBlockSiblings=formBlock.siblings('.container-form, .container-button');
 	var alreadyCreate = false;
+
 	function setDefaultPosition() {// 1-е значение = top, 2-е значение = left
 			var centerTop=(vars.imgRelHeight/2)-(vars.markRelHeight/2);
 			var centerLeft=(vars.imgRelWidth/2)-(vars.markRelWidth/2);
@@ -99,8 +100,6 @@ var WaterMarkModule = (function(){
 		markOne.limitTop=Math.round(vars.imgRelHeight-vars.markRelHeight);
 		markOne.limitLeft=Math.round(vars.imgRelWidth-vars.markRelWidth);
 	};
-
-
 
 	function createMarkRepeatBg(){
 
@@ -550,6 +549,14 @@ var WaterMarkModule = (function(){
 			};
 			window.downloadFile(href);
 		};
+
+		$(".coordinates-value").on("keydown", function(e){	//событие, запрещает ввод чего-либо в инпуты
+			e.preventDefault();
+		});
+
+		$(".item-img").on("dragstart", function(e){	//событие, что б в базовой картинке не бралась зеркальная копия
+			e.preventDefault();
+		});
 
 		return {
             emptyFileField: emptyFileField,
