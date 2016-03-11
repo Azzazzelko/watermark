@@ -1,24 +1,24 @@
 //all params
 var vars = {
-	contWidth : 651,
-	contHeight : 534,
-	imgUrl : 0,
-	imgAbsWidth : 0,
-	imgAbsHeight: 0,
-	imgRelWidth: 0,
-	imgRelHeight: 0,
+    contWidth : 651,
+    contHeight : 534,
+    imgUrl : 0,
+    imgAbsWidth : 0,
+    imgAbsHeight: 0,
+    imgRelWidth: 0,
+    imgRelHeight: 0,
     imgRelCoef: 0, // rel/abs  (0..1)
-	imgTop: 0,
-	imgLeft: 0,
+    imgTop: 0,
+    imgLeft: 0,
     imgValid: false,
-	markUrl : 0,
-	markAbsWidth: 0,
-	markAbsHeight: 0,
-	markRelWidth: 0,
-	markRelHeight: 0,
-	markTop: 0,
-	markLeft: 0,
-	markOpacity: 1,
+    markUrl : 0,
+    markAbsWidth: 0,
+    markAbsHeight: 0,
+    markRelWidth: 0,
+    markRelHeight: 0,
+    markTop: 0,
+    markLeft: 0,
+    markOpacity: 1,
 
     markTopLimit: 0,
     markLeftLimit: 0,
@@ -46,7 +46,9 @@ var markMany = {
     marginX : 10,
     marginY : 10,
     top : 0,
-    left : 0
+    left : 0,
+    countX : 0,
+    countY : 0
 };
 
 var defaultPosition = {
@@ -96,20 +98,20 @@ function createMarkRepeatBg(){
     var $markWrap = $('.watermark-wrap');
     var $mark = $('.watermark-img');
 
-    var countX = 1 + Math.round(vars.imgRelWidth / (vars.markRelWidth + vars.markMarginX));
-    var countY = 1 + Math.round(vars.imgRelHeight / (vars.markRelHeight + vars.markMarginY));
+    var countX = 1 + Math.ceil(vars.imgRelWidth / (vars.markRelWidth + vars.markMarginX));
+    var countY = 1 + Math.ceil(vars.imgRelHeight / (vars.markRelHeight + vars.markMarginY));
 
-    var markWrapWidth = (countX) * (vars.markRelWidth + vars.markMarginX);
-    var markWrapHeight = ( countY) * (vars.markRelHeight + vars.markMarginY);
+    var markWrapWidth = (countX) * (vars.markRelWidth + markMany.marginX) + 25;
+    var markWrapHeight = (countY) * (vars.markRelHeight + markMany.marginY) + 25;
 
-    vars.markWrapOffsetX = Math.round((vars.imgRelWidth - markWrapWidth) / 2);
-    vars.markWrapOffsetY = Math.round((vars.imgRelHeight - markWrapHeight) / 2);
+    markMany.countY = countY;
+    markMany.countX = countX;
 
     $markWrap.css({
         'width': markWrapWidth,
         'height': markWrapHeight,
-        'top': markMany.top,
-        'left': markMany.left
+        'top': (markMany.top == 0) ? markMany.top - (markWrapHeight/3) : markMany.top,     //чтоб новая становилась в нужную позицию, а старая сохранялась нормально при переключении. Значение зависит от границ дропа
+        'left': (markMany.left == 0) ? markMany.left - Math.round( (markWrapWidth/3)/1.5 ) : markMany.left  
     });
 
 
@@ -122,15 +124,6 @@ function createMarkRepeatBg(){
         clone.addClass('markClone');
         $markWrap.append(clone);
     }
-};
-
-function updateMarginsMarkRepeatBg(){
-    var $markWrap = $('.watermark-wrap');
-    
-    $($markWrap).find('img').css({
-        'margin-right' : vars.markMarginX,
-        'margin-bottom' : vars.markMarginY
-    });
 };
 
 function createMarkOneBg(){
@@ -163,22 +156,22 @@ function createMarkOneBg(){
 };
 
 function resetAllSettings(){
-        resetOpacity()
-        markMany.marginX = 10;
-        markMany.marginY = 10;
-        markMany.top = 0;
-        markMany.left = 0;
-        $(".color-block").eq(0).click();
+    resetOpacity()
+    $(".color-block").eq(0).click();
+    markMany.marginX = 10;
+    markMany.marginY = 10;
+    markMany.top = 0;
+    markMany.left = 0;
 
-        if ( vars.activeMode != 'one' ){
-            $('.active-color').removeClass('active-color');
-            $('.markClone').remove();
-            createMarkRepeatBg();
-            $(".container-coordinates").find("[name='x-coordinates']").val(markMany.marginX);
-            $(".container-coordinates").find("[name='y-coordinates']").val(markMany.marginY);
-            $('.active-color-horizontal-field').css("height", "10px");
-            $('.active-color-vertical-field').css("width", "10px");
-        };
+    if ( vars.activeMode != 'one' ){
+        $('.active-color').removeClass('active-color');
+        $('.markClone').remove();
+        createMarkRepeatBg();
+        $(".container-coordinates").find("[name='x-coordinates']").val(markMany.marginX);
+        $(".container-coordinates").find("[name='y-coordinates']").val(markMany.marginY);
+        $('.active-color-horizontal-field').css("height", "10px");
+        $('.active-color-vertical-field').css("width", "10px");
+    };
 };
 
 function resetOpacity(){
@@ -188,7 +181,7 @@ function resetOpacity(){
 
 $( document ).ready(function() {
 
-	var photoWidth = 2000;
+    var photoWidth = 2000;
     var imgInput=$('#background');
     var watermarkInput=$('#watermark');
     var formBlock=watermarkInput.closest('.container-form');
@@ -366,29 +359,34 @@ $( document ).ready(function() {
         $('.watermark-wrap').css(direction,value);
     };
 
-    function changeMargin(value, direction, action, edgeValue){
+    function changeMargin(value, direction, action, edgeValue){     //управление изменением ширины\высоты\маржинов второго режима
         if (direction == "margin-bottom"){
             var oldHorizontal = $('.active-color-horizontal-field').css("height");
+                oldHeight = $('.watermark-wrap').css("width");
             if (edgeValue != true){
                 var newHorizontal = (action == "increment") ? parseInt(oldHorizontal) + 1 + "px" : parseInt(oldHorizontal) + -1 + "px";
+                var newHeight = (action == "increment") ? parseInt(oldHeight) + (1*markMany.countX) + "px" : parseInt(oldHeight) + (-1*markMany.countX) + "px";
 
+                $('.watermark-wrap').css("width", newHeight);    
                 $('.active-color-horizontal-field').css("height", newHorizontal);
                 markMany.marginY = value;
             }else{
                 return;
             };
         }else{
-            var oldVertical = $('.active-color-vertical-field').css("width");
+            var oldVertical = $('.active-color-vertical-field').innerWidth();
+                oldWidth = $('.watermark-wrap').css("width");
             if (edgeValue != true){
                 var newVertical = (action == "increment") ? parseInt(oldVertical) + 1 + "px" : parseInt(oldVertical) + -1 + "px";
+                var newWidth = (action == "increment") ? parseInt(oldWidth) + (1.5*markMany.countX) + "px" : parseInt(oldWidth) + (-1.5*markMany.countX) + "px";
 
                 $('.active-color-vertical-field').css("width", newVertical);
+                $('.watermark-wrap').css("width", newWidth);
                 markMany.marginX = value;
             }else{
                 return;
             };
         };
-
         $('.watermark-img').css(direction,value);
     };
 
@@ -443,7 +441,6 @@ $( document ).ready(function() {
 
     //*********drag and drop**********//
 
-    //var draggable = $(".watermark-img")[0];
     var draggable = $(".watermark-wrap")[0],
         dragContainer = $(".img-wrap")[0];
 
@@ -511,14 +508,14 @@ $( document ).ready(function() {
             }else{
                 var plusForBorderHeight = Math.round( draggable.offsetHeight/3 ),
                     plusForBorderWidth = Math.round( draggable.offsetWidth/3 ),
-                    borderLeft = e.pageX - shiftX < coordsContainer.left - plusForBorderWidth,
+                    borderLeft = e.pageX - shiftX < Math.round( coordsContainer.left - plusForBorderWidth/1.5 ),
                     borderTop = e.pageY - shiftY < coordsContainer.top - plusForBorderHeight,
                     borderRight = e.pageX + (draggable.offsetWidth - shiftX) > coordsContainer.right + plusForBorderWidth,
                     borderBottom = e.pageY + (draggable.offsetHeight - shiftY) > coordsContainer.bottom + plusForBorderHeight;
 
                 $(draggable).css({
                     "transform" : "none",
-                    "left" : borderLeft ? -plusForBorderWidth
+                    "left" : borderLeft ? Math.round(-plusForBorderWidth/1.5)
                            : borderRight ? dragContainer.offsetWidth + plusForBorderWidth - draggable.offsetWidth
                            : e.pageX - coordsContainer.left - shiftX,
                     "top" : borderTop ? -plusForBorderHeight
@@ -535,18 +532,18 @@ $( document ).ready(function() {
 
     //*****drag end...............//
 
-	$('.download').on("click", function(e){
-		e.preventDefault();
+    $('.download').on("click", function(e){
+        e.preventDefault();
         setCurrentModeParams();
-		$.ajax({
-			type: "POST",
-			url: 'php/create-img.php',
-			data: vars,
-			dataType: 'json'
-		}).done(function( data ) {
+        $.ajax({
+            type: "POST",
+            url: 'php/create-img.php',
+            data: vars,
+            dataType: 'json'
+        }).done(function( data ) {
             downloadResImg(data.result);
-		});
-	});
+        });
+    });
 
     function downloadResImg(response){
         var href = 'php/download-img.php?file='+response;
