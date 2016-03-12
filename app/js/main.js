@@ -212,6 +212,9 @@ var WaterMarkModule = (function(){
 		markMany.countY = countY;
 		markMany.countX = countX;
 
+		markMany.top = (markMany.top == 0) ? markMany.top - (markWrapHeight/3) : markMany.top;
+		markMany.left = (markMany.left == 0) ? markMany.left - (markWrapWidth/3) : markMany.left;
+
 		$markWrap.css({
 			'width': markWrapWidth,
 			'height': markWrapHeight,
@@ -219,11 +222,11 @@ var WaterMarkModule = (function(){
 			'left': (markMany.left == 0) ? markMany.left - (markWrapWidth/3) : markMany.left
 		});
 
-
 		$mark.css({
 			'margin-right' : markMany.marginX,
 			'margin-bottom' : markMany.marginY
 		});
+
 		for (var i = 1, j = countX * countY; i < j; i++) {
 			var clone = $mark.clone();
 			clone.addClass('markClone');
