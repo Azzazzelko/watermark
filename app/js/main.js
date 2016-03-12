@@ -29,8 +29,10 @@ var WaterMarkModule = (function(){
 		markWrapOffsetX:0,  // смещения блока с размноженными марками относительно блока с картинкой
 		markWrapOffsetY:0,
 		markValid: false,
-
+		background_tmp:0,
+		watermark_tmp:0,
 		activeMode: 'one'
+
 	};
 
 	var markOne= {
