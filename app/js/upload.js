@@ -11,8 +11,10 @@ $(document).ready(function() {
     initFileUpload('watermark');
   }
 
+
   function attachEvents() {
     $('.upload').on('change', onChangeFile);
+    $(window).on("beforeunload", deleteFile);
   }
 
   function showToolTip($element, toltiptext) {
@@ -27,6 +29,15 @@ $(document).ready(function() {
         .text(data[toltiptext])
         .css({"display":"block"});
     });
+  }
+
+  function deleteFile () {
+    var 
+      ajaxOptions = {
+        url:'php/delete-img.php'
+      };
+      
+      $.ajax(ajaxOptions);
   }
 
   function hideToolTip($element) {
