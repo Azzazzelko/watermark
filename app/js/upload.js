@@ -92,6 +92,16 @@ $(document).ready(function() {
                   hideToolTip($this);
                   setImgValidation(imgtype, true);
                   getSizes(result, imgtype);
+
+                  if (imgtype === 'background') {
+                    WaterMarkModule.variables.vars.background_tmp = result;
+                    if(WaterMarkModule.variables.vars.watermark_tmp !=0) {
+                      getSizes(WaterMarkModule.variables.vars.watermark_tmp, 'watermark');
+                    }
+                  }
+                  if (imgtype === 'watermark') {
+                    WaterMarkModule.variables.vars.watermark_tmp = result;
+                  }
                 }
               })
               .error(function (jqXHR, textStatus, errorThrown) {
