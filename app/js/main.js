@@ -533,7 +533,7 @@ var WaterMarkModule = (function(){
 
 			}else{
 				var plusForBorderHeight = Math.round( draggable.offsetHeight/2 ),
-                    plusForBorderWidth = Math.round( draggable.offsetWidth/2 ), 
+                    plusForBorderWidth = Math.round( draggable.offsetWidth/2 ),
                     borderLeft = e.pageX - shiftX < coordsContainer.left - plusForBorderWidth,
                     borderTop = e.pageY - shiftY < coordsContainer.top - plusForBorderHeight,
                     borderRight = e.pageX + (draggable.offsetWidth - shiftX) > coordsContainer.right + plusForBorderWidth,
@@ -566,7 +566,7 @@ var WaterMarkModule = (function(){
 	function downloadAnimationRemove(){
 		$(".download-animation").remove();
 	};
-	
+
 	function downloadResImg(response){
 		var href = 'php/download-img.php?file='+response;
 		window.downloadFile = function(url) {
