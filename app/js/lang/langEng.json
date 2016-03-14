@@ -1,0 +1,17 @@
+{
+	"title" : "Watermarks generator",
+	"sidebar-title" : "Settings",
+	"img-label" : "Original image",
+	"water-label" : "Watermark",
+	"fake-input" : "Image",
+	"position" : "Position",
+	"opacity" : "Transparency",
+	"copy" : "&copy;2014, This is my website, please do not copy or steal it",
+	"download" : "Download",
+	"reset" : "Reset",
+	"uferror1" : "File missing",
+	"uferror2" : "Error loading file",
+	"uferror3" : "Your file is too large (more than 5 MB)",
+	"uferror4" : "Your file is not an image",
+	"uferror5" : "Loading file. Please wait..."
+}
