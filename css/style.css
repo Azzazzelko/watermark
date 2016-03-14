@@ -69,6 +69,13 @@ body{
 .container__button{
     overflow: hidden;
     margin: 0 auto;
+    text-align: justify;
+}
+
+.container__button:after {
+    width: 100%;
+    content: "";
+    display: inline-block;
 }
 
 .header__button{
@@ -79,20 +86,12 @@ body{
     cursor: pointer;
     min-width: 220px;
     text-align: center;
-    display: block;
+    display: inline-block;
     text-decoration: none;
 }
 
 .header__button:hover{
     background: rgba(255, 255, 255, 0.2);
-}
-
-.github_link{
-    float: left;
-}
-
-.github_zip{
-    float: right;
 }
 
 .content{
