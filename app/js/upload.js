@@ -186,10 +186,10 @@ $(document).ready(function() {
 
         }
       } else {
-            WaterMarkModule.variables.vars.markRelWidth = WaterMarkModule.variables.vars.markAbsWidth * WaterMarkModule.variables.vars.imgRelCoef;
-            WaterMarkModule.variables.vars.markRelHeight = WaterMarkModule.variables.vars.markAbsHeight * WaterMarkModule.variables.vars.imgRelCoef;
+            WaterMarkModule.variables.vars.markRelWidth = Math.round(WaterMarkModule.variables.vars.markAbsWidth * WaterMarkModule.variables.vars.imgRelCoef);
+            WaterMarkModule.variables.vars.markRelHeight = Math.round(WaterMarkModule.variables.vars.markAbsHeight * WaterMarkModule.variables.vars.imgRelCoef);
       }
-      WaterMarkModule.variables.mark.css({'width': WaterMarkModule.variables.vars.markRelWidth, 'height': WaterMarkModule.variables.vars.markRelHeight, 'top': WaterMarkModule.variables.vars.markTop, 'left': WaterMarkModule.variables.vars.markLeft});
+      WaterMarkModule.variables.mark.css({'width': Math.round( WaterMarkModule.variables.vars.markRelWidth ), 'height': Math.round( WaterMarkModule.variables.vars.markRelHeight ), 'top': WaterMarkModule.variables.vars.markTop, 'left': WaterMarkModule.variables.vars.markLeft});
       WaterMarkModule.variables.mark.attr('src', WaterMarkModule.variables.vars.markUrl);
       WaterMarkModule.variables.vars.markTopLimit=(WaterMarkModule.variables.vars.imgRelHeight-WaterMarkModule.variables.vars.markRelHeight);
       WaterMarkModule.variables.vars.markLeftLimit=(WaterMarkModule.variables.vars.imgRelWidth-WaterMarkModule.variables.vars.markRelWidth);

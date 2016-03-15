@@ -188,6 +188,10 @@ input, button{
     border-radius: 0 3px 3px 0;
 }
 
+.fileform:hover .selectbutton {
+    background-color: #df7069;
+}
+
 .upload {
     cursor: pointer;
     position:absolute;

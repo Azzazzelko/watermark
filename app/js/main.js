@@ -134,7 +134,7 @@ var WaterMarkModule = (function(){
 					TimeOutInner = setTimeout(function tick() {
 						i>=10 ? i=i-2 : '';
 						var result = changeValue($this);
-						if (!result) { $('.switch-container').mouseup(); } // если результат будет false значит у нас достигнуто последнее из возможных значений, поетому мы преклащаем рекурсию таймаута, делаем триггер mouseup
+						if (!result) { $(document).mouseup(); } // если результат будет false значит у нас достигнуто последнее из возможных значений, поетому мы преклащаем рекурсию таймаута, делаем триггер mouseup
 							else {
 								TimeOutInner = setTimeout(tick, i); // иначе мы спокойно может использовать рекурсивный таймаут и дальше изменять значения полей
 							}
@@ -142,10 +142,15 @@ var WaterMarkModule = (function(){
 				},500);
 			});
 
-			$('.switch-container').on('mouseup','.up, .down', function(){
+			$(document).on('mouseup', function(){
 				clearTimeout(TimeOutInner);
 				clearTimeout(TimeOutGlobal);
 			});
+
+			$(".sidebar").on("dragstart", function(e){
+				e.preventDefault();
+			});
+
 		})();
 
 		$('.download').on("click", function(e){	//события при клацанье на загрузку
@@ -203,23 +208,23 @@ var WaterMarkModule = (function(){
 		var $markWrap = $('.watermark-wrap');
 		var $mark = $('.watermark-img');
 
-		var countX = 1 + Math.ceil(vars.imgRelWidth / (vars.markRelWidth + vars.markMarginX))*2;
-		var countY = 1 + Math.ceil(vars.imgRelHeight / (vars.markRelHeight + vars.markMarginY))*2;
+		var countX = 1 + Math.ceil(vars.imgRelWidth / (vars.markRelWidth + vars.markMarginX));
+		var countY = 1 + Math.ceil(vars.imgRelHeight / (vars.markRelHeight + vars.markMarginY));
 
-		var markWrapWidth = (countX) * (vars.markRelWidth + markMany.marginX);
-		var markWrapHeight = (countY) * (vars.markRelHeight + markMany.marginY);
+		var markWrapWidth = (countX) * Math.round( (vars.markRelWidth + markMany.marginX) );
+		var markWrapHeight = (countY) * Math.round( (vars.markRelHeight + markMany.marginY) );
 
 		markMany.countY = countY;
 		markMany.countX = countX;
 
-		markMany.top = (markMany.top == 0) ? markMany.top - (markWrapHeight/3) : markMany.top;
-		markMany.left = (markMany.left == 0) ? markMany.left - (markWrapWidth/3) : markMany.left;
+		markMany.top = (markMany.top == 0) ? 0 : markMany.top;
+		markMany.left = (markMany.left == 0) ? 0 : markMany.left;
 
 		$markWrap.css({
 			'width': markWrapWidth,
 			'height': markWrapHeight,
-			'top': (markMany.top == 0) ? markMany.top - (markWrapHeight/3) : markMany.top,     //чтоб новая становилась в нужную позицию, а старая сохранялась нормально при переключении. Значение зависит от границ дропа
-			'left': (markMany.left == 0) ? markMany.left - (markWrapWidth/3) : markMany.left
+			'top': (markMany.top == 0) ? 0 : markMany.top,     //чтоб новая становилась в нужную позицию, а старая сохранялась нормально при переключении. Значение зависит от границ дропа
+			'left': (markMany.left == 0) ? 0 : markMany.left
 		});
 
 		$mark.css({
@@ -257,14 +262,16 @@ var WaterMarkModule = (function(){
 		});
 
 		$mark.css({
-				'margin-right' : 0,
-				'margin-bottom' : 0
-			});
+			'margin-right' : 0,
+			'margin-bottom' : 0
+		});
+
 		$('.markClone').remove();
 	};
 
 	function resetAllSettings(){
-		resetOpacity()
+		resetOpacity();
+		vars.markOpacity = 1;
 		$(".color-block").eq(0).click();
 		markMany.marginX = 10;
 		markMany.marginY = 10;
@@ -408,32 +415,36 @@ var WaterMarkModule = (function(){
 
 	function changeMargin(value, direction, action, edgeValue){     //управление изменением ширины\высоты\маржинов второго режима
 		if (direction == "margin-bottom"){
-			var oldHorizontal = $('.active-color-horizontal-field').css("height");
-				oldHeight = $('.watermark-wrap').css("width");
+			var oldHorizontal = $('.active-color-horizontal-field').css("height"),
+				oldHeight = $('.watermark-wrap').css("height");
 			if (edgeValue != true){
 				var newHorizontal = (action == "increment") ? parseInt(oldHorizontal) + 1 + "px" : parseInt(oldHorizontal) + -1 + "px";
-				var newHeight = (action == "increment") ? parseInt(oldHeight) + (1*markMany.countX) + "px" : parseInt(oldHeight) + (-1*markMany.countX) + "px";
+				var newHeight = (action == "increment") ? parseInt(oldHeight) + (1*markMany.countY) + "px" : parseInt(oldHeight) + (-1*markMany.countY) + "px";
 
-				$('.watermark-wrap').css("width", newHeight);
 				$('.active-color-horizontal-field').css("height", newHorizontal);
+				$('.watermark-wrap').css("height", newHeight);
 				markMany.marginY = value;
+				checkPosition();
 			}else{
 				return;
 			};
 		}else{
-			var oldVertical = $('.active-color-vertical-field').innerWidth();
+			var oldVertical = $('.active-color-vertical-field').innerWidth(),
 				oldWidth = $('.watermark-wrap').css("width");
+
 			if (edgeValue != true){
 				var newVertical = (action == "increment") ? parseInt(oldVertical) + 1 + "px" : parseInt(oldVertical) + -1 + "px";
-				var newWidth = (action == "increment") ? parseInt(oldWidth) + (1.5*markMany.countX) + "px" : parseInt(oldWidth) + (-1.5*markMany.countX) + "px";
+				var newWidth = (action == "increment") ? parseInt(oldWidth) + (1*markMany.countX) + "px" : parseInt(oldWidth) + (-1*markMany.countX) + "px";
 
 				$('.active-color-vertical-field').css("width", newVertical);
 				$('.watermark-wrap').css("width", newWidth);
 				markMany.marginX = value;
+				checkPosition();
 			}else{
 				return;
 			};
 		};
+
 		$('.watermark-img').css(direction,value);
 	};
 
@@ -465,6 +476,43 @@ var WaterMarkModule = (function(){
 			}
 	};
 
+	function checkPosition(){
+		var draggable = $(".watermark-wrap")[0],
+			dragContainer = $(".img-wrap")[0];
+
+		var coords = getCoords( draggable ),
+			coordsContainer = getCoords( dragContainer );
+
+		var borderRight = coords.right < coordsContainer.right + markMany.marginX,
+            borderTop = coords.top > coordsContainer.top,
+            borderLeft = coords.left > coordsContainer.left,
+            borderBottom = coords.bottom < coordsContainer.bottom + markMany.marginY;
+  						console.log(borderLeft, borderRight)
+		$(draggable).css({
+			"transform" : "none",
+			"left" : borderLeft ? 0
+				   : borderRight ? dragContainer.offsetWidth - draggable.offsetWidth + markMany.marginX
+				   : $(draggable).css("left"),
+			"top" : borderTop ? 0 
+				  : borderBottom ? dragContainer.offsetHeight - draggable.offsetHeight + markMany.marginY
+				  : $(draggable).css("top")
+		});
+
+		markMany.left = parseInt($(draggable).css("left"));
+		markMany.top = parseInt($(draggable).css("top"));
+
+		function getCoords(elem) {
+			var box = elem.getBoundingClientRect();
+
+			return {
+			  top: box.top + pageYOffset,
+			  left: box.left + pageXOffset,
+			  right: box.right + pageXOffset,
+			  bottom: box.bottom + pageYOffset
+			};
+		};
+	};
+
 	//*********drag and drop**********//
 
 	var draggable = $(".watermark-wrap")[0],
@@ -478,21 +526,23 @@ var WaterMarkModule = (function(){
 
 		$(document).on("mousemove", function(e){
 		  moveIt(e);
+		  								console.log( vars );
 		  $("body").css("cursor", "move");
 		});
 
-		$(document).on("mouseup", function(e){
-		  var $this = $(this);
-
-		  $(document).off("mousemove");
-		  $this.off("mouseup");
-		  $(draggable).css("cursor", "pointer");
-		  $("body").css("cursor", "default");
-		});
+		$(document).on("mouseup", dragMouseUp);
 
 		$(draggable).on("dragstart", function(e){
 		  e.preventDefault();
 		});
+
+		function dragMouseUp(e){
+			var $this = $(this);
+
+		    $this.off("mousemove").off("mouseup", dragMouseUp);
+		    $(draggable).css("cursor", "pointer");
+		    $("body").css("cursor", "default");
+		};
 
 		function getCoords(elem) {
 			var box = elem.getBoundingClientRect();
@@ -532,20 +582,18 @@ var WaterMarkModule = (function(){
 				markOne.top = parseInt($(draggable).css("top"));
 
 			}else{
-				var plusForBorderHeight = Math.round( draggable.offsetHeight/2 ),
-                    plusForBorderWidth = Math.round( draggable.offsetWidth/2 ),
-                    borderLeft = e.pageX - shiftX < coordsContainer.left - plusForBorderWidth,
-                    borderTop = e.pageY - shiftY < coordsContainer.top - plusForBorderHeight,
-                    borderRight = e.pageX + (draggable.offsetWidth - shiftX) > coordsContainer.right + plusForBorderWidth,
-                    borderBottom = e.pageY + (draggable.offsetHeight - shiftY) > coordsContainer.bottom + plusForBorderHeight;
+				var borderRight = e.pageX + (draggable.offsetWidth - shiftX) < coordsContainer.right + markMany.marginX,
+                    borderTop = e.pageY - shiftY > coordsContainer.top,
+                    borderLeft = e.pageX - shiftX > coordsContainer.left,
+                    borderBottom = e.pageY + (draggable.offsetHeight - shiftY) < coordsContainer.bottom + markMany.marginY;
 
 				$(draggable).css({
 					"transform" : "none",
-					"left" : borderLeft ? -plusForBorderWidth
-						   : borderRight ? dragContainer.offsetWidth + plusForBorderWidth - draggable.offsetWidth
+					"left" : borderLeft ? 0
+						   : borderRight ? dragContainer.offsetWidth - draggable.offsetWidth + markMany.marginX
 						   : e.pageX - coordsContainer.left - shiftX,
-					"top" : borderTop ? -plusForBorderHeight
-						  : borderBottom ? dragContainer.offsetHeight + plusForBorderHeight - draggable.offsetHeight
+					"top" : borderTop ? 0 
+						  : borderBottom ? dragContainer.offsetHeight - draggable.offsetHeight + markMany.marginY
 						  : e.pageY - coordsContainer.top - shiftY,
 					"cursor" : "move"
 				});
